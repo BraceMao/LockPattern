@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape
+    android:shape="oval"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <gradient
+        android:startColor="@color/item_bg_def"
+        android:endColor="@color/item_bg_def"
+        />
+    <size
+        android:width="@dimen/lpv_tv_ItemSize"
+        android:height="@dimen/lpv_tv_ItemSize"
+        />
+</shape>
