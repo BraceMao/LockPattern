@@ -7,9 +7,9 @@
 
 
     <string name="lpv_tv_statusTitle_setNewPattern">Set new pattern</string>
-    <string name="lpv_tv_statusTitle_enterPattern">Enter pattern</string>
     <string name="lpv_tv_statusTitle_confirmPattern">Confirm pattern</string>
     <string name="lpv_tv_statusTitle_patternConfirmed">Pattern confirmed</string>
+    <string name="lpv_tv_statusTitle_patternError">Wrong Pattern</string>
     <string name="lpv_tv_forgotPass_title">Forgot password?</string>
     <string name="lpv_tv_forgotPass_secretQuestion">Enter second password.</string>
 

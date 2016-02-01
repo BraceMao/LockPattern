@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:lpv="http://schemas.android.com/apk/res/com.andriyantonov.lockpatternt"
+    xmlns:lpv="http://schemas.android.com/apk/res-auto"
     android:background="@color/main_bg"
     tools:showIn="@layout/activity_main"
     tools:context=".MainActivityFragment">
@@ -19,11 +19,11 @@
         android:layout_alignParentLeft="true"
         />
 
-    <com.andriyantonov.lockpatternt.lock.view.view.LockPatternView
+    <com.andriyantonov.lockpatternt.LockPatternView
         android:id="@+id/lpv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        lpv:itemColor_default="#ff0099"
+        style="@style/lpv_style"
         />
+
+
 
 </RelativeLayout>

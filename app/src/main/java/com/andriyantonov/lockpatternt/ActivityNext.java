@@ -30,8 +30,7 @@ public class ActivityNext extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 LPV_SharedPreferences shp = new LPV_SharedPreferences(ActivityNext.this);
-                                shp.saveSecondPass("");
-                                shp.saveMainPass("");
+                                shp.clearSharedPreferences();
                                 Intent i = new Intent(ActivityNext.this, MainActivity.class);
                                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

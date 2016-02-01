@@ -1,6 +1,5 @@
 package com.andriyantonov.lockpatternt.lock.view;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Handler;
@@ -16,15 +15,14 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.andriyantonov.lockpatternt.R;
-import com.andriyantonov.lockpatternt.lock.view.view.LockPatternView;
-import com.andriyantonov.lockpatternt.lock.view.view.MainPatternView;
+import com.andriyantonov.lockpatternt.LockPatternView;
 
 /**
  * Created by pro100svitlo on 1/29/16.
  */
 public class LPV_ForgotPassDialog {
 
-    private Activity mActivity;
+    private Context mContext;
     private LockPatternView mLPV;
     private InputMethodManager mInputMethodManager;
     private AlertDialog mDialog;
@@ -36,11 +34,11 @@ public class LPV_ForgotPassDialog {
     private String mCurrentAnswerStr = "";
     private String mCorrectAnswerStr;
 
-    public LPV_ForgotPassDialog(Activity a, LockPatternView lp){
-        mActivity = a;
+    public LPV_ForgotPassDialog(Context c, LockPatternView lp){
+        mContext = c;
         mLPV = lp;
 
-        mShp = new LPV_SharedPreferences(mActivity);
+        mShp = new LPV_SharedPreferences(mContext);
         mCorrectAnswerStr = mShp.getSecondSavedPass();
 
         createDialog();
@@ -65,15 +63,15 @@ public class LPV_ForgotPassDialog {
     }
 
     private void createDialog(){
-        String title = mActivity.getString(R.string.lpv_ad_forgotPass_title);
-        String message = mActivity.getString(R.string.lpv_ad_forgotPass_message);
-        String pos = mActivity.getString(R.string.lpv_ad_forgotPass_pos);
-        String neg = mActivity.getString(R.string.lpv_ad_forgotPass_neg);
+        String title = mContext.getString(R.string.lpv_ad_forgotPass_title);
+        String message = mContext.getString(R.string.lpv_ad_forgotPass_message);
+        String pos = mContext.getString(R.string.lpv_ad_forgotPass_pos);
+        String neg = mContext.getString(R.string.lpv_ad_forgotPass_neg);
 
-        View v = LayoutInflater.from(mActivity).inflate(R.layout.dialog_forgot_pass, null);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.dialog_forgot_pass, null);
         initSecondPass(v);
 
-        AlertDialog.Builder b = new AlertDialog.Builder(mActivity);
+        AlertDialog.Builder b = new AlertDialog.Builder(mContext);
         b.setTitle(title);
         b.setMessage(message);
         b.setView(v);
@@ -98,7 +96,7 @@ public class LPV_ForgotPassDialog {
 
     private void initSecondPass(View v){
         mAnswer = (EditText)v.findViewById(R.id.forgotPass_et_answer);
-        int textColor = ContextCompat.getColor(mActivity, android.R.color.primary_text_light_nodisable);
+        int textColor = ContextCompat.getColor(mContext, android.R.color.primary_text_light_nodisable);
         mAnswer.setTextColor(textColor);
         setMaxLengthLimit(mMaxPassLimit);
         setPassLengthListener();
@@ -133,7 +131,7 @@ public class LPV_ForgotPassDialog {
 
     private void showSoftKeyboard(){
         if (mInputMethodManager == null){
-            mInputMethodManager = (InputMethodManager)mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            mInputMethodManager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
         }
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -145,8 +143,7 @@ public class LPV_ForgotPassDialog {
 
 
     private void answerIsCorrect(){
-        mShp.saveSecondPass("");
-        mShp.saveMainPass("");
+        mShp.clearSharedPreferences();
         mLPV.forgotPassSuccessful();
     }
 
