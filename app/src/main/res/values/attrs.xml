@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="lpv">
-        <attr name="itemColorDefault" format="color" />
+        <attr name="itemColorNormal" format="color" />
+        <attr name="itemColorTouched" format="color" />
+        <attr name="itemColorError" format="color" />
         <attr name="forgotPassStr" format="string" />
     </declare-styleable>
 </resources>

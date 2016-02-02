@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.andriyantonov.lockpatternt.lock.view.LPV_Interface;
+import com.andriyantonov.lockpatternt.lock.view.LockPatternView;
 
 /**
  * A placeholder fragment containing a simple view.

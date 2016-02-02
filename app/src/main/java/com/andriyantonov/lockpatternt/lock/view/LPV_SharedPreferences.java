@@ -41,7 +41,9 @@ public class LPV_SharedPreferences {
     }
 
     public void clearSharedPreferences(){
-        mShpEditor.clear();
+        mShpEditor.putString(LPV_MAIN_SAVE_PASS_KEY, "");
+        mShpEditor.putString(LPV_SECOND_SAVE_PASS_KEY, "");
+        mShpEditor.apply();
     }
 
 }

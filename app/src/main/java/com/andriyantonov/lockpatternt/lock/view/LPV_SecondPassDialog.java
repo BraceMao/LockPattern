@@ -1,6 +1,5 @@
 package com.andriyantonov.lockpatternt.lock.view;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Handler;
@@ -16,7 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.andriyantonov.lockpatternt.R;
-import com.andriyantonov.lockpatternt.LockPatternView;
 
 /**
  * Created by pro100svitlo on 1/29/16.

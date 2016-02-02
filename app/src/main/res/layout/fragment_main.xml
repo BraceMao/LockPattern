@@ -19,7 +19,7 @@
         android:layout_alignParentLeft="true"
         />
 
-    <com.andriyantonov.lockpatternt.LockPatternView
+    <com.andriyantonov.lockpatternt.lock.view.LockPatternView
         android:id="@+id/lpv"
         style="@style/lpv_style"
         />
