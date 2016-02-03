@@ -2,13 +2,12 @@
     <string name="app_name">LockPattern</string>
     <string name="action_settings">Settings</string>
 
-    <string name="lpv_tv_shortPattern">Pattern must contain at least <xliff:g id="count">%s</xliff:g> items!</string>
+    <string name="lpv_tv_shortPattern">Pattern must contain at least <xliff:g id="count">%s</xliff:g> dots!</string>
     <string name="title_activity_main2">Main2Activity</string>
 
 
     <string name="lpv_tv_statusTitle_setNewPattern">Set new pattern</string>
     <string name="lpv_tv_statusTitle_confirmPattern">Confirm pattern</string>
-    <string name="lpv_tv_statusTitle_patternConfirmed">Pattern confirmed</string>
     <string name="lpv_tv_statusTitle_patternError">Wrong Pattern</string>
     <string name="lpv_tv_forgotPass_title">Forgot password?</string>
     <string name="lpv_tv_forgotPass_secretQuestion">Enter second password.</string>
@@ -23,7 +22,7 @@
     <string name="lpv_ad_secondPass_pos">Confirm</string>
 
     <string name="lpv_ad_forgotPass_title">Forgot patter?</string>
-    <string name="lpv_ad_forgotPass_message">For start patter recovery please, answer question below:</string>
+    <string name="lpv_ad_forgotPass_message">For patter reset please, answer next question:</string>
     <string name="lpv_ad_forgotPass_neg">Dismiss</string>
     <string name="lpv_ad_forgotPass_pos">Confirm</string>
 

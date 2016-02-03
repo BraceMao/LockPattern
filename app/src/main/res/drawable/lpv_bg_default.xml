@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <stroke
         android:width="2dp"
-        android:color="@color/lpv_bg_default"
+        android:color="@color/lpv_white_100"
         />
     <corners
         android:radius="10dp"

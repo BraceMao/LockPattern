@@ -2,8 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:lpv="http://schemas.android.com/apk/res-auto"
-    android:background="@color/main_bg"
+    android:background="#c3c3c3"
     tools:showIn="@layout/activity_main"
     tools:context=".MainActivityFragment">
     <TextView
@@ -23,7 +22,5 @@
         android:id="@+id/lpv"
         style="@style/lpv_style"
         />
-
-
 
 </RelativeLayout>

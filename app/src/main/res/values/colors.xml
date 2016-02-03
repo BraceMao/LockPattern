@@ -5,11 +5,6 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="lpv_white_100">#f5f5f4</color>
-
-    <color name="main_bg">#9e9696</color>
-    <color name="lpv_bg_default">#e7e6e6</color>
-    <color name="lpv_bg_error">#e91d1d</color>
-    <color name="item_bg_enter">#28911e</color>
-    <color name="item_bg_def">#ffffff</color>
-    <color name="zzzzzzzzzz">#e77400</color>
+    <color name="lpv_red">#b70505</color>
+    <color name="lpv_green">#17810d</color>
 </resources>

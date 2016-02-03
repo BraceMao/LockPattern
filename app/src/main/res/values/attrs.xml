@@ -1,10 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="lpv">
-        <attr name="itemColorNormal" format="color" />
-        <attr name="itemColorTouched" format="color" />
-        <attr name="itemColorError" format="color" />
-        <attr name="forgotPassStr" format="string" />
+        <attr name="itemAnimationScaleMax" format="float"/>
+
+        <attr name="dotRadius" format="integer"/>
+        <attr name="lineWidth" format="integer"/>
+        <attr name="minimalDotsCount" format="integer"/>
+        <attr name="dotVibrateDuration" format="integer"/>
+        <attr name="errorVibrateDuration" format="integer"/>
+        <attr name="errorTimeOutDuration" format="integer"/>
+
+        <attr name="dotColorNormal" format="color" />
+        <attr name="dotColorTouched" format="color" />
+        <attr name="dotColorError" format="color" />
+
+        <attr name="forgotPassTitleStr" format="string" />
+        <attr name="forgotPassFailedStr" format="string" />
+        <attr name="forgotPassSuccessStr" format="string" />
+        <attr name="btnCancelStr" format="string" />
+        <attr name="btnConfirmRepeatStr" format="string" />
+        <attr name="btnConfirmStr" format="string" />
+        <attr name="titleSetNewPatternStr" format="string" />
+        <attr name="titleConfirmPatternStr" format="string" />
+        <attr name="titleErrorPatternStr" format="string" />
+
+        <attr name="dotVibrateEnable" format="boolean"/>
+        <attr name="errorVibrateEnable" format="boolean"/>
+        <attr name="secretModeEnable" format="boolean"/>
+        <attr name="secondPassDialogEnable" format="boolean"/>
+
     </declare-styleable>
 </resources>
 

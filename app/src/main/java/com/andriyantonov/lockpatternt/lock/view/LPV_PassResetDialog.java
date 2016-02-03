@@ -19,7 +19,7 @@ import com.andriyantonov.lockpatternt.R;
 /**
  * Created by pro100svitlo on 1/29/16.
  */
-public class LPV_ForgotPassDialog {
+public class LPV_PassResetDialog {
 
     private Context mContext;
     private LockPatternView mLPV;
@@ -33,7 +33,7 @@ public class LPV_ForgotPassDialog {
     private String mCurrentAnswerStr = "";
     private String mCorrectAnswerStr;
 
-    public LPV_ForgotPassDialog(Context c, LockPatternView lp){
+    public LPV_PassResetDialog(Context c, LockPatternView lp){
         mContext = c;
         mLPV = lp;
 
@@ -87,6 +87,7 @@ public class LPV_ForgotPassDialog {
         b.setNegativeButton(neg, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                mAnswer.getText().clear();
                 dialog.dismiss();
             }
         });
@@ -94,7 +95,7 @@ public class LPV_ForgotPassDialog {
     }
 
     private void initSecondPass(View v){
-        mAnswer = (EditText)v.findViewById(R.id.forgotPass_et_answer);
+        mAnswer = (EditText)v.findViewById(R.id.passReset_et_answer);
         int textColor = ContextCompat.getColor(mContext, android.R.color.primary_text_light_nodisable);
         mAnswer.setTextColor(textColor);
         setMaxLengthLimit(mMaxPassLimit);
@@ -143,10 +144,10 @@ public class LPV_ForgotPassDialog {
 
     private void answerIsCorrect(){
         mShp.clearSharedPreferences();
-        mLPV.forgotPassSuccessful();
+        mLPV.resetPatternSuccessful();
     }
 
     private void answerIsWrong(){
-        mLPV.forgotPassFailed();
+        mLPV.resetPatternFailed();
     }
 }

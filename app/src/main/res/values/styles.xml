@@ -20,9 +20,5 @@
     <style name="lpv_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="itemColorNormal">#f5f5f5</item>
-        <item name="itemColorTouched">#28911e</item>
-        <item name="itemColorError">#e91d1d</item>
-        <item name="forgotPassStr">Forgot password?</item>
     </style>
 </resources>
