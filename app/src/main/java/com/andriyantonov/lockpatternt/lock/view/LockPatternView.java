@@ -7,6 +7,9 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.support.design.widget.Snackbar;
@@ -37,6 +40,7 @@ public class LockPatternView extends RelativeLayout{
     public final int CONFIRM_PATTERN = 200;
     public final int CHECK_PATTERN = 300;
 
+    private Context mContext;
     private LockPatternView mLPV;
     private MainPatternView mMainPatternView;
     private StatusTextView mStatusTitle;
@@ -44,36 +48,41 @@ public class LockPatternView extends RelativeLayout{
     private LPV_Interface mInterface;
     private LPV_SharedPreferences mSharedPreferences;
     private BottomButtonsLayout mBottomButtonsLayout;
-    private Context mContext;
     private Button mBtnCancel;
     private Button mBtnConfirm;
-    private Bitmap mPatternBitmap;
     private Canvas mPatternCanvas;
-    private Paint mLinePaint;
+    private Drawable mBgNormal;
+    private Drawable mBgError;
+    private Paint mDotLinePaint;
+    private Paint mBgLinePaint;
     private Paint mPatternPaint;
-    private Path mPatternPAth;
+    private Path mPatternPath;
     private Vibrator mVibrator;
+    private Bitmap mPatternBitmap;
     private Bitmap mDotBitmapNormal;
     private Bitmap mDotBitmapTouched;
     private Bitmap mDotBitmapError;
     private ArrayList<ImageView> mAllDots = new ArrayList<>();
     private ArrayList<ImageView> mDotsTouched = new ArrayList<>();
-    private int mStatusTitleColor = R.color.lpv_white_100;
+    private int mStatusColorNormal = R.color.lpv_white_100;
+    private int mStatusColorError = R.color.lpv_white_100;
     private int mForgotPassColor = R.color.lpv_white_100;
-    private int mItemColorNormal = R.color.lpv_white_100;
+    private int mDotColorNormal = R.color.lpv_white_100;
     private int mDotColorTouched = R.color.lpv_green;
     private int mDotColorError = R.color.lpv_red;
-    private int mLpvBgDefault = R.drawable.lpv_bg_default;
-    private int mLpvBgError = R.drawable.lpv_bg_error;
+    private int mBgColorNormal = R.color.lpv_white_100;
+    private int mBgColorError = R.color.lpv_red;
     private int mDotAnimationDuration = 100;
     private int mDotCountMin = 4;
-    private int mLineWidth = 10;
+    private int mDotRadius = 20;
+    private int mDotLineWidth = 10;
+    private int mBgRadius = 20;
+    private int mBgLineWidth = 5;
     private int mDotVibrateDuration = 10;
     private int mErrorVibrateDuration = 200;
     private int mErrorTimeOut = 2000;
     private int mHorizontalDotsCount = 3;
     private int mVerticalDotsCount = 3;
-    private int mDotRadius = 20;
     private int mCurrentLockStatus;
     private int mStatusBarHeight;
     private int mScreenWidth;
@@ -154,12 +163,16 @@ public class LockPatternView extends RelativeLayout{
     }
 
     private void initDefaultColors(){
-        mStatusTitleColor = ContextCompat.getColor(mContext, mStatusTitleColor);
+        mStatusColorNormal = ContextCompat.getColor(mContext, mStatusColorNormal);
+        mStatusColorError = ContextCompat.getColor(mContext, mStatusColorError);
         mForgotPassColor = ContextCompat.getColor(mContext, mForgotPassColor);
 
-        mItemColorNormal = ContextCompat.getColor(mContext, mItemColorNormal);
+        mDotColorNormal = ContextCompat.getColor(mContext, mDotColorNormal);
         mDotColorTouched = ContextCompat.getColor(mContext, mDotColorTouched);
         mDotColorError = ContextCompat.getColor(mContext, mDotColorError);
+
+        mBgColorNormal = ContextCompat.getColor(mContext, mBgColorNormal);
+        mBgColorError = ContextCompat.getColor(mContext, mBgColorError);
     }
 
     private void initDefaultStrings(){
@@ -184,34 +197,28 @@ public class LockPatternView extends RelativeLayout{
         mSecondPassDialogEnable = true;
     }
 
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float x = event.getRawX();
         float y = event.getRawY();
         if (mPatternEditEnable){
-
             switch (event.getAction()){
                 case MotionEvent.ACTION_DOWN:
-                    if (mPatternEditEnable){
-                        mNeedSetDefItems = true;
-                        prepareDefaultView(0);
-                        mDotTouchLock_currentX = x;
-                        mDotTouchLock_currentY = y;
-                        checkItemInPosition(x, y);
-                        return true;
-                    }
+                    mNeedSetDefItems = true;
+                    prepareDefaultView(0);
+                    mDotTouchLock_currentX = x;
+                    mDotTouchLock_currentY = y;
+                    checkItemInPosition(x, y);
+                    return true;
                 case MotionEvent.ACTION_MOVE:
-                    if (mPatternEditEnable){
-                        checkItemInPosition(x, y);
-                        mDotTouchLock_currentX = x;
-                        mDotTouchLock_currentY = y;
-                        invalidate();
-                        return true;
-                    }
+                    checkItemInPosition(x, y);
+                    mDotTouchLock_currentX = x;
+                    mDotTouchLock_currentY = y;
+                    invalidate();
+                    return true;
                 case MotionEvent.ACTION_UP:
                     checkEnteredPattern();
-                    mPatternPAth.reset();
+                    mPatternPath.reset();
                     setItemCoordinatesToDefault();
                     invalidate();
                     return true;
@@ -239,7 +246,6 @@ public class LockPatternView extends RelativeLayout{
         } else {
             onCreateLockPatternView();
         }
-
     }
 
     @Override
@@ -247,11 +253,11 @@ public class LockPatternView extends RelativeLayout{
         if (!isSecretModeEnable() && mDotTouchLock_prevX != 0 && mDotTouchLock_prevY != 0){
             canvas.drawBitmap(mPatternBitmap, 0, 0, mPatternPaint);
             canvas.drawLine(mDotTouchLock_prevX, mDotTouchLock_prevY,
-                    mDotTouchLock_currentX, mDotTouchLock_currentY, mLinePaint);
+                    mDotTouchLock_currentX, mDotTouchLock_currentY, mDotLinePaint);
         }
     }
 
-    public void setActivityAndInterface(Context c, LPV_Interface lpv_interface){
+    public void initLockPatternView(Context c, LPV_Interface lpv_interface){
         mInterface = lpv_interface;
         mContext = c;
     }
@@ -287,7 +293,9 @@ public class LockPatternView extends RelativeLayout{
 
             //integers
             mDotRadius = a.getInteger(R.styleable.lpv_dotRadius, mDotRadius);
-            mLineWidth = a.getInteger(R.styleable.lpv_lineWidth, mLineWidth);
+            mDotLineWidth = a.getInteger(R.styleable.lpv_dotLineWidth, mDotLineWidth);
+            mBgRadius = a.getInteger(R.styleable.lpv_bgRadius, mBgRadius);
+            mBgLineWidth = a.getInteger(R.styleable.lpv_bgRadius, mBgLineWidth);
             int minDotsCount = a.getInteger(R.styleable.lpv_minimalDotsCount, mDotCountMin);
             if (minDotsCount > mDotCountMin){
                 mDotCountMin = minDotsCount;
@@ -297,9 +305,15 @@ public class LockPatternView extends RelativeLayout{
             mErrorTimeOut = a.getInteger(R.styleable.lpv_errorTimeOutDuration, mErrorTimeOut);
 
             //colors
-            mItemColorNormal = a.getInteger(R.styleable.lpv_dotColorNormal, mItemColorNormal);
+            mDotColorNormal = a.getInteger(R.styleable.lpv_dotColorNormal, mDotColorNormal);
             mDotColorTouched = a.getInteger(R.styleable.lpv_dotColorTouched, mDotColorTouched);
             mDotColorError = a.getInteger(R.styleable.lpv_dotColorError, mDotColorError);
+            mBgColorNormal = a.getInteger(R.styleable.lpv_dotColorError, mBgColorNormal);
+            mBgColorError = a.getInteger(R.styleable.lpv_dotColorError, mBgColorError);
+            mStatusColorNormal = a.getInteger(R.styleable.lpv_statusColorNormal, mStatusColorNormal);
+            mStatusColorError = a.getInteger(R.styleable.lpv_statusColorNormal, mStatusColorError);
+            mStatusColorError = a.getInteger(R.styleable.lpv_statusColorNormal, mStatusColorError);
+            mForgotPassColor = a.getInteger(R.styleable.lpv_forgotPassColor, mForgotPassColor);
 
             //strings
             String forgotPass = a.getString(R.styleable.lpv_forgotPassTitleStr);
@@ -355,13 +369,20 @@ public class LockPatternView extends RelativeLayout{
 
         mCurrentLockStatus = SET_PATTERN;
 
-        mLinePaint = new Paint();
-        mPatternPAth = new Path();
-        mLinePaint.setColor(mDotColorTouched);
-        mLinePaint.setStrokeWidth(mLineWidth);
-        mLinePaint.setStyle(Paint.Style.STROKE);
-        mLinePaint.setStrokeCap(Paint.Cap.ROUND);
+        mDotLinePaint = new Paint();
+        mPatternPath = new Path();
+        mDotLinePaint.setColor(mDotColorTouched);
+        mDotLinePaint.setAntiAlias(true);
+        mDotLinePaint.setStrokeWidth(mDotLineWidth);
+        mDotLinePaint.setStyle(Paint.Style.STROKE);
+        mDotLinePaint.setStrokeCap(Paint.Cap.ROUND);
         mPatternPaint = new Paint(Paint.DITHER_FLAG);
+
+        mBgLinePaint = new Paint();
+        mBgLinePaint.setAntiAlias(true);
+        mBgLinePaint.setStrokeWidth(mBgLineWidth);
+        mBgLinePaint.setStyle(Paint.Style.STROKE);
+
         setWillNotDraw(false);
         clearPathBitmap();
     }
@@ -471,11 +492,11 @@ public class LockPatternView extends RelativeLayout{
                     int yy = (int) mDotsCoordinatesY[i];
 
                     if (mDotsTouched.size() == 0){
-                        mPatternPAth.moveTo(xx, yy - mStatusBarHeight);
+                        mPatternPath.moveTo(xx, yy - mStatusBarHeight);
                     } else {
-                        mPatternPAth.lineTo(xx, yy - mStatusBarHeight);
+                        mPatternPath.lineTo(xx, yy - mStatusBarHeight);
                     }
-                    mPatternCanvas.drawPath(mPatternPAth, mLinePaint);
+                    mPatternCanvas.drawPath(mPatternPath, mDotLinePaint);
 
                     mDotTouchLock_prevX = xx;
                     mDotTouchLock_prevY = yy - mStatusBarHeight;
@@ -551,7 +572,8 @@ public class LockPatternView extends RelativeLayout{
     }
 
     private void setDefaultView(){
-        mLinePaint.setColor(mDotColorTouched);
+        mStatusTitle.setTextColor(mStatusColorNormal);
+        mDotLinePaint.setColor(mDotColorTouched);
         mNeedSetDefItems = false;
         for (int i = 0; i < mAllDots.size(); i++) {
             ImageView iv = mAllDots.get(i);
@@ -561,7 +583,7 @@ public class LockPatternView extends RelativeLayout{
                     .start();
             iv.setImageBitmap(mDotBitmapNormal);
         }
-        mMainPatternView.setBackgroundResource(mLpvBgDefault);
+        mMainPatternView.setBackground(mBgNormal);
         clearPathBitmap();
         setDefaultTitle();
         invalidate();
@@ -586,8 +608,9 @@ public class LockPatternView extends RelativeLayout{
     }
 
     private void patternError(){
-        mStatusTitle.setText(mTitlePatterErrorStr);
-        mMainPatternView.setBackgroundResource(mLpvBgError);
+        mStatusTitle.setTextColor(mStatusColorError);
+         mStatusTitle.setText(mTitlePatterErrorStr);
+        mMainPatternView.setBackground(mBgError);
         vibrate(mErrorVibrateEnable, mErrorVibrateDuration);
         mNeedSetDefItems = true;
         if (!isSecretModeEnable()){
@@ -712,15 +735,35 @@ public class LockPatternView extends RelativeLayout{
 
             setId((int) System.currentTimeMillis());
             setOrientation(LinearLayout.VERTICAL);
-            setBackgroundResource(mLpvBgDefault);
 
             for (int i = 0; i < mHorizontalDotsCount; i++) {
                 addView(addNewPatternRow());
             }
-
             setMainPatternViewLayoutParams();
 
-            calculateItemsCoordinates();
+            createPatternBg();
+
+            calculateDotsCoordinates();
+        }
+
+        private void createPatternBg(){
+            RectF r = new RectF();
+            float div = Math.round(mMainPatternViewSize * 0.5 /100);
+            r.set(div, div, mMainPatternViewSize - div, mMainPatternViewSize - div);
+
+            Bitmap normal = Bitmap.createBitmap(mMainPatternViewSize, mMainPatternViewSize, Bitmap.Config.ARGB_8888);
+            Canvas c = new Canvas(normal);
+            mBgLinePaint.setColor(mBgColorNormal);
+            c.drawRoundRect(r, mBgRadius, mBgRadius, mBgLinePaint);
+            mBgNormal = new BitmapDrawable(mContext.getResources(), normal);
+
+            Bitmap error = Bitmap.createBitmap(mMainPatternViewSize, mMainPatternViewSize, Bitmap.Config.ARGB_8888);
+            c = new Canvas(error);
+            mBgLinePaint.setColor(mBgColorError);
+            c.drawRoundRect(r, mBgRadius, mBgRadius, mBgLinePaint);
+            mBgError = new BitmapDrawable(mContext.getResources(), error);
+
+            setBackground(mBgNormal);
         }
 
         private LinearLayout addNewPatternRow(){
@@ -794,7 +837,7 @@ public class LockPatternView extends RelativeLayout{
         }
 
         private void drawItemNormal(){
-            mItemPaint.setColor(mItemColorNormal);
+            mItemPaint.setColor(mDotColorNormal);
             Canvas canvas = new Canvas(mDotBitmapNormal);
             canvas.drawCircle(mDotRadius, mDotRadius, mDotRadius, mItemPaint);
         }
@@ -811,7 +854,7 @@ public class LockPatternView extends RelativeLayout{
             canvas.drawCircle(mDotRadius, mDotRadius, mDotRadius, mItemPaint);
         }
 
-        private void calculateItemsCoordinates(){
+        private void calculateDotsCoordinates(){
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -825,7 +868,7 @@ public class LockPatternView extends RelativeLayout{
                     }
 
                     if (mDotsCoordinatesX[0] == 0) {
-                        calculateItemsCoordinates();
+                        calculateDotsCoordinates();
                     }
                 }
             }, 50);
@@ -859,7 +902,7 @@ public class LockPatternView extends RelativeLayout{
         private void onCreateStatusTextView(){
             setGravity(Gravity.CENTER_HORIZONTAL);
             setTextSize(mTextSize);
-            setTextColor(mStatusTitleColor);
+            setTextColor(mStatusColorNormal);
 
             setLayoutParams();
         }
@@ -877,7 +920,7 @@ public class LockPatternView extends RelativeLayout{
 
     private class ForgotPassTextView extends TextView implements View.OnClickListener {
 
-        private LPV_PassResetDialog mPassResetDialog;
+        private LPV_Dialog mPassResetDialog;
 
         public ForgotPassTextView(Context context) {
             super(context);
@@ -902,6 +945,12 @@ public class LockPatternView extends RelativeLayout{
             setVisibility(GONE);
             setOnClickListener(this);
 
+            int[] attrs = new int[]{R.attr.selectableItemBackground};
+            TypedArray ta = mContext.obtainStyledAttributes(attrs);
+            int bg = ta.getResourceId(0,0);
+            setBackgroundResource(bg);
+            ta.recycle();
+
             setLayoutParams();
         }
 
@@ -920,7 +969,9 @@ public class LockPatternView extends RelativeLayout{
         @Override
         public void onClick(View v) {
             if (mPassResetDialog == null){
-                mPassResetDialog = new LPV_PassResetDialog(mContext, mLPV);
+                mPassResetDialog = new LPV_Dialog
+                        .Builder(mContext, mLPV, mDisplayDensity, LPV_Dialog.DIALOG_RESTORE_PATTERN)
+                        .build();
             }
             mPassResetDialog.show();
         }
@@ -928,7 +979,8 @@ public class LockPatternView extends RelativeLayout{
 
     private class BottomButtonsLayout extends LinearLayout {
 
-        private LPV_SecondPassDialog mSecondPassDialog;
+//        private LPV_SecondPassDialog mSecondPassDialog;
+        private LPV_Dialog mSecondPassDialog;
         private int mMargin =  16;
 
         public BottomButtonsLayout(Context context) {
@@ -1030,7 +1082,10 @@ public class LockPatternView extends RelativeLayout{
                 } else if (mCurrentLockStatus == CONFIRM_PATTERN){
                     if (mSecondPassDialogEnable){
                         if (mSecondPassDialog == null){
-                            mSecondPassDialog = new LPV_SecondPassDialog(mContext,  mLPV);
+//                            mSecondPassDialog = new LPV_SecondPassDialog(mContext,  mLPV);
+                            mSecondPassDialog = new LPV_Dialog
+                                    .Builder(mContext, mLPV, mDisplayDensity, LPV_Dialog.DIALOG_SET_SECOND_PASS)
+                                    .build();
                         }
                         mSecondPassDialog.show();
                     } else {

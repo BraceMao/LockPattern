@@ -4,7 +4,9 @@
         <attr name="itemAnimationScaleMax" format="float"/>
 
         <attr name="dotRadius" format="integer"/>
-        <attr name="lineWidth" format="integer"/>
+        <attr name="dotLineWidth" format="integer"/>
+        <attr name="bgRadius" format="integer"/>
+        <attr name="bgLineWidth" format="integer"/>
         <attr name="minimalDotsCount" format="integer"/>
         <attr name="dotVibrateDuration" format="integer"/>
         <attr name="errorVibrateDuration" format="integer"/>
@@ -13,6 +15,11 @@
         <attr name="dotColorNormal" format="color" />
         <attr name="dotColorTouched" format="color" />
         <attr name="dotColorError" format="color" />
+        <attr name="bgColorNormal" format="color" />
+        <attr name="bgColorError" format="color" />
+        <attr name="statusColorNormal" format="color" />
+        <attr name="statusColorError" format="color" />
+        <attr name="forgotPassColor" format="color" />
 
         <attr name="forgotPassTitleStr" format="string" />
         <attr name="forgotPassFailedStr" format="string" />

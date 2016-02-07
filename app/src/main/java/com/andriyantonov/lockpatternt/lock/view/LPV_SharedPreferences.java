@@ -9,8 +9,9 @@ import android.preference.PreferenceManager;
  */
 public class LPV_SharedPreferences {
 
-    public static final String LPV_MAIN_SAVE_PASS_KEY = "LPV_MAIN_SAVE_PASS_KEY";
-    public static final String LPV_SECOND_SAVE_PASS_KEY = "LPV_SECOND_SAVE_PASS_KEY";
+    public static final String LPV_MAIN_PASS_KEY = "LPV_MAIN_PASS_KEY";
+    public static final String LPV_SECOND_PASS_ANSWER = "LPV_SECOND_PASS_ANSWER";
+    public static final String LPV_SECOND_PASS_QUESTION = "LPV_SECOND_PASS_QUESTION";
 
     private Context mContext;
     private SharedPreferences mShp;
@@ -23,26 +24,36 @@ public class LPV_SharedPreferences {
     }
 
     public void saveMainPass(String pass){
-        mShpEditor.putString(LPV_MAIN_SAVE_PASS_KEY, pass);
+        mShpEditor.putString(LPV_MAIN_PASS_KEY, pass);
         mShpEditor.apply();
     }
 
     public String getMainSavedPass(){
-        return mShp.getString(LPV_MAIN_SAVE_PASS_KEY, "");
+        return mShp.getString(LPV_MAIN_PASS_KEY, "");
     }
 
     public void saveSecondPass(String pass){
-        mShpEditor.putString(LPV_SECOND_SAVE_PASS_KEY, pass);
+        mShpEditor.putString(LPV_SECOND_PASS_ANSWER, pass);
         mShpEditor.apply();
     }
 
     public String getSecondSavedPass(){
-        return mShp.getString(LPV_SECOND_SAVE_PASS_KEY, "");
+        return mShp.getString(LPV_SECOND_PASS_ANSWER, "");
+    }
+
+    public void saveSecondQuestion(String q){
+        mShpEditor.putString(LPV_SECOND_PASS_QUESTION, q);
+        mShpEditor.apply();
+    }
+
+    public String getSecondPassQuestion(){
+        return mShp.getString(LPV_SECOND_PASS_QUESTION, "ololol ???");
     }
 
     public void clearSharedPreferences(){
-        mShpEditor.putString(LPV_MAIN_SAVE_PASS_KEY, "");
-        mShpEditor.putString(LPV_SECOND_SAVE_PASS_KEY, "");
+        mShpEditor.putString(LPV_MAIN_PASS_KEY, "");
+        mShpEditor.putString(LPV_SECOND_PASS_ANSWER, "");
+        mShpEditor.putString(LPV_SECOND_PASS_QUESTION, "");
         mShpEditor.apply();
     }
 

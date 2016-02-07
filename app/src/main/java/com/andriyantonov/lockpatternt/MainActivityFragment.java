@@ -32,7 +32,7 @@ public class MainActivityFragment extends Fragment implements LPV_Interface {
 
         mLockPatternView = (LockPatternView)rootView.findViewById(R.id.lpv);
 
-        mLockPatternView.setActivityAndInterface(getActivity(), this);
+        mLockPatternView.initLockPatternView(getActivity(), this);
 
         return rootView;
     }
