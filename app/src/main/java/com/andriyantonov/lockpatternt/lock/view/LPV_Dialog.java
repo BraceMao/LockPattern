@@ -1,15 +1,23 @@
 package com.andriyantonov.lockpatternt.lock.view;
 
+import android.animation.LayoutTransition;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatRadioButton;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.util.TypedValue;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -20,6 +28,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.andriyantonov.lockpatternt.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by pro100svitlo on 1/29/16.
@@ -32,15 +43,19 @@ public class LPV_Dialog {
         private LockPatternView mLPV;
         private int mMarginLeftRight = 24;
         private int mMarginTopBottom = 16;
-        private int mMinAnswerLength = 4;
-        private int mMaxAnswerLength = 20;
+        private int mMinAnswerLength;
+        private int mMaxAnswerLength;
+        private int mTitleColor = R.color.colorPrimary;
+        private int mMessageColor = R.color.colorPrimary;
+        private int mTextColor = R.color.textColor;
+        private int mButtonsColor = R.color.colorAccent;
+        private int mRadioBtnColor = R.color.colorAccent;
         private int mPrimaryColor = R.color.colorPrimary;
         private int mAccentColor = R.color.colorAccent;
         private int mDialogType;
         private String[] mQuestionsArray;
         private String mTitleStr;
         private String mMessageStr;
-        private String mQuestionStr;
         private String mPositiveStr;
         private String mNegativeStr;
 
@@ -52,32 +67,82 @@ public class LPV_Dialog {
             getDialogItems(density);
         }
 
-        public Builder setTitle(String title){
-            mTitleStr = title;
+        public Builder setTitleColor(int c){
+            if (c != 0){
+                mTitleColor = c;
+            }
             return this;
         }
 
-        public Builder setMessage(String message){
-            mMessageStr = message;
+        public Builder setMessageColor(int c){
+            if (c != 0){
+                mMessageColor = c;
+            }
             return this;
         }
 
-        public Builder setPositive(String p){
-            mPositiveStr = p;
-            return this;
-        }
-        public Builder setNegative(String n){
-            mNegativeStr = n;
-            return this;
-        }
-
-        public Builder setMinimalAnswerLength(int length){
-            mMinAnswerLength = length;
+        public Builder setTextColor(int c){
+            if (c != 0){
+                mTextColor = c;
+            }
             return this;
         }
 
-        public Builder setMaxAnswerLength(int length){
-            mMaxAnswerLength = length;
+        public Builder setButtonsColor(int c){
+            if (c != 0){
+                mButtonsColor = c;
+            }
+            return this;
+        }
+
+        public Builder setRadioButtonsColor(int c){
+            if (c != 0){
+                mRadioBtnColor = c;
+            }
+            return this;
+        }
+
+        public Builder setTitleStr(String title){
+            if (title != null){
+                mTitleStr = title;
+            }
+            return this;
+        }
+
+        public Builder setMessageStr(String message){
+            if (message != null){
+                mMessageStr = message;
+            }
+            return this;
+        }
+
+        public Builder setPositiveStr(String p){
+            if (p != null){
+                mPositiveStr = p;
+            }
+            return this;
+        }
+        public Builder setNegativeStr(String n){
+            if (n != null){
+                mNegativeStr = n;
+            }
+            return this;
+        }
+
+        public Builder setQuestionsArray(String[] q){
+            if (q != null){
+                mQuestionsArray = q;
+            }
+            return this;
+        }
+
+        public Builder setMinAnswerLength(int l){
+            mMinAnswerLength = l;
+            return this;
+        }
+
+        public Builder setMaxAnswerLength(int l){
+            mMaxAnswerLength = l;
             return this;
         }
 
@@ -86,19 +151,25 @@ public class LPV_Dialog {
         }
 
         private void getDialogItems(float screenDensity){
+            mTitleColor = ContextCompat.getColor(mContext, mTitleColor);
+            mMessageColor = ContextCompat.getColor(mContext, mMessageColor);
+            mTextColor = ContextCompat.getColor(mContext, mTextColor);
+            mButtonsColor = ContextCompat.getColor(mContext, mButtonsColor);
+            mRadioBtnColor = ContextCompat.getColor(mContext, mRadioBtnColor);
+
             mPrimaryColor = ContextCompat.getColor(mContext, mPrimaryColor);
             mAccentColor = ContextCompat.getColor(mContext, mAccentColor);
 
             if (mDialogType == LPV_Dialog.DIALOG_RESTORE_PATTERN){
-                mTitleStr = mContext.getString(R.string.lpv_ad_forgotPass_title);
-                mMessageStr = mContext.getString(R.string.lpv_ad_forgotPass_message);
-                mPositiveStr = mContext.getString(R.string.lpv_ad_forgotPass_pos);
-                mNegativeStr = mContext.getString(R.string.lpv_ad_forgotPass_neg);
+                mTitleStr = mContext.getString(R.string.lpv_ad_restorePass_title);
+                mMessageStr = mContext.getString(R.string.lpv_ad_restorePass_message);
+                mPositiveStr = mContext.getString(R.string.lpv_ad_restorePass_pos);
+                mNegativeStr = mContext.getString(R.string.lpv_ad_restorePass_neg);
             } else if (mDialogType == LPV_Dialog.DIALOG_SET_SECOND_PASS){
                 mTitleStr = mContext.getString(R.string.lpv_ad_secondPass_title);
                 mMessageStr = mContext.getString(R.string.lpv_ad_secondPass_message);
-                mPositiveStr = mContext.getString(R.string.lpv_ad_secondPass_neg);
-                mNegativeStr = mContext.getString(R.string.lpv_ad_secondPass_pos);
+                mPositiveStr = mContext.getString(R.string.lpv_ad_secondPass_pos);
+                mNegativeStr = mContext.getString(R.string.lpv_ad_secondPass_neg);
                 mQuestionsArray = mContext.getResources().getStringArray(R.array.secondPassQuestions);
             }
 
@@ -120,6 +191,8 @@ public class LPV_Dialog {
     private TextView mQuestion;
     private EditText mAnswer;
     private Button mPositiveButton;
+    private List <RadioButton> mQuestionRBtnsList = new ArrayList<>();
+    private int mAnimationDuration = 0;
     private int mMarginLeftRight;
     private int mMarginTopBottom;
     private int mMinAnswerLength;
@@ -133,9 +206,18 @@ public class LPV_Dialog {
     private String mQuestionStr;
     private String mPositiveStr;
     private String mNegativeStr;
+    private int mSelectedQuestionPosition = -1;
+    private int mTitleColor;
+    private int mMessageColor;
+    private int mTextColor;
+    private int mButtonsColor;
+    private int mRadioBtnColor;
+
+
     private int mPrimaryColor;
     private int mAccentColor;
     private int mDialogType;
+    private boolean mIsQuestionChosen;
 
     private LPV_Dialog(Builder b){
         mContext = b.mContext;
@@ -144,8 +226,16 @@ public class LPV_Dialog {
 
         mMarginLeftRight = b.mMarginLeftRight;
         mMarginTopBottom = b.mMarginTopBottom;
+
+        mTitleColor = b.mTitleColor;
+        mMessageColor = b.mMessageColor;
+        mTextColor = b.mTextColor;
+        mButtonsColor = b.mButtonsColor;
+        mRadioBtnColor = b.mRadioBtnColor;
+
         mPrimaryColor = b.mPrimaryColor;
         mAccentColor = b.mAccentColor;
+        mTextColor = b.mTextColor;
         mMaxAnswerLength = b.mMaxAnswerLength;
         mMinAnswerLength = b.mMinAnswerLength;
 
@@ -155,6 +245,7 @@ public class LPV_Dialog {
         mPositiveStr = b.mPositiveStr;
         mNegativeStr = b.mNegativeStr;
 
+        mIsQuestionChosen = false;
 
         createDialog();
     }
@@ -170,14 +261,15 @@ public class LPV_Dialog {
             TextView title = (TextView)mDialog.findViewById(R.id.alertTitle);
             TextView message = (TextView)mDialog.findViewById(android.R.id.message);
 
-            negative.setTextColor(mAccentColor);
-            mPositiveButton.setTextColor(mAccentColor);
-            title.setTextColor(mPrimaryColor);
-            message.setTextColor(mPrimaryColor);
+            title.setTextColor(mTitleColor);
+            message.setTextColor(mMessageColor);
+            mPositiveButton.setTextColor(mButtonsColor);
+            negative.setTextColor(mButtonsColor);
+
+            showSoftKeyboard();
+            mAnswer.requestFocus();
         }
         checkPositiveBtnEnable();
-        mAnswer.requestFocus();
-        showSoftKeyboard();
     }
 
     public void hide(){
@@ -203,23 +295,9 @@ public class LPV_Dialog {
         b.setTitle(mTitleStr);
         b.setMessage(mMessageStr);
         b.setView(mContainer);
-        b.setPositiveButton(mPositiveStr, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (mCurrentAnswerStr.equals(mCorrectAnswerStr)) {
-                    answerIsCorrect();
-                } else {
-                    answerIsWrong();
-                }
-            }
-        });
-        b.setNegativeButton(mNegativeStr, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                mAnswer.getText().clear();
-                dialog.dismiss();
-            }
-        });
+        b.setPositiveButton(mPositiveStr, onPositiveBtnListener);
+        b.setNegativeButton(mNegativeStr, onNegativeBtnListener);
+        b.setOnCancelListener(onCancelListener);
         mDialog = b.create();
     }
 
@@ -228,6 +306,7 @@ public class LPV_Dialog {
         setContainerView();
 
         mAnswer = new EditText(mContext);
+        setAnswerView();
 
         if (mDialogType == DIALOG_RESTORE_PATTERN){
             mQuestion = new TextView(mContext);
@@ -237,9 +316,9 @@ public class LPV_Dialog {
             mQuestionsGroup = new RadioGroup(mContext);
             setQuestionsGroupView();
             mContainer.addView(mQuestionsGroup);
+            mAnswer.setVisibility(View.GONE);
         }
 
-        setAnswerView();
         mContainer.addView(mAnswer);
 
         setMaxLengthLimit(mMaxAnswerLength);
@@ -251,8 +330,9 @@ public class LPV_Dialog {
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         mContainer.setPadding(mMarginLeftRight, mMarginTopBottom, mMarginLeftRight, 0);
         mContainer.setLayoutParams(lp);
-
         mContainer.setOrientation(LinearLayout.VERTICAL);
+
+        setLayoutTransition(mContainer);
     }
 
     private void setQuestionView(){
@@ -260,7 +340,7 @@ public class LPV_Dialog {
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         mQuestion.setLayoutParams(lp);
 
-        mQuestion.setTextColor(mPrimaryColor);
+        mQuestion.setTextColor(mTextColor);
         mQuestion.setTextSize(mTextSize);
     }
 
@@ -271,21 +351,36 @@ public class LPV_Dialog {
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         mQuestionsGroup.setLayoutParams(rglp);
-
+        setLayoutTransition(mQuestionsGroup);
+        ColorStateList colorStateList = new ColorStateList(
+                new int[][]{
+                        new int[]{mRadioBtnColor},
+                        new int[]{mRadioBtnColor}
+                },
+                new int[]{mRadioBtnColor, mRadioBtnColor}
+        );
         for (int i = 0; i < mQuestionsArray.length; i++) {
-            RadioButton rb = new RadioButton(mContext);
-            setQuestionItem(i, rb, rblp);
+            AppCompatRadioButton rb = new AppCompatRadioButton(mContext);
+
+            setQuestionItem(i, rb, rblp, colorStateList);
             mQuestionsGroup.addView(rb);
         }
     }
 
-    private void setQuestionItem(int pos, RadioButton rb, ViewGroup.LayoutParams lp){
+    private void setQuestionItem(int pos, AppCompatRadioButton rb, ViewGroup.LayoutParams lp,
+                                 ColorStateList csl){
         rb.setLayoutParams(lp);
         rb.setTag(pos);
+        rb.setTextColor(mTextColor);
         rb.setTextSize(mTextSize);
         rb.setText(mQuestionsArray[pos]);
-        rb.setTextColor(mPrimaryColor);
-        rb.setButtonTintList(ColorStateList.valueOf(mAccentColor));
+        rb.setOnClickListener(onQuestionItemListener);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+//            rb.setButtonTintList(ColorStateList.valueOf(mAccentColor));
+//        }
+        rb.setSupportButtonTintList(csl);
+
+        mQuestionRBtnsList.add(rb);
     }
 
     private void setAnswerView(){
@@ -293,7 +388,7 @@ public class LPV_Dialog {
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         mAnswer.setLayoutParams(lp);
 
-        mAnswer.setTextColor(mPrimaryColor);
+        mAnswer.setTextColor(mTextColor);
         mAnswer.setTextSize(mTextSize);
         mAnswer.setSingleLine(true);
         mAnswer.getBackground().setColorFilter(mAccentColor, PorterDuff.Mode.SRC_ATOP);
@@ -322,6 +417,9 @@ public class LPV_Dialog {
         if (l < mMinAnswerLength){
             mPositiveButton.setClickable(false);
             mPositiveButton.setAlpha(0.3f);
+        } else if (l>mMaxAnswerLength){
+            mCurrentAnswerStr = mCurrentAnswerStr.substring(0, mMaxAnswerLength);
+            mAnswer.setText(mCurrentAnswerStr);
         } else {
             mPositiveButton.setClickable(true);
             mPositiveButton.setAlpha(1f);
@@ -340,12 +438,89 @@ public class LPV_Dialog {
         }, 10);
     }
 
-    private void answerIsCorrect(){
-        mShp.clearSharedPreferences();
-        mLPV.resetPatternSuccessful();
+    private void hideSoftKeyboard(){
+        if (mInputMethodManager == null){
+            mInputMethodManager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        }
+        mInputMethodManager.hideSoftInputFromWindow(mAnswer.getWindowToken(), 0);
     }
 
-    private void answerIsWrong(){
-        mLPV.resetPatternFailed();
+
+    private DialogInterface.OnClickListener onPositiveBtnListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            mAnswer.getText().clear();
+            if (mDialogType == DIALOG_RESTORE_PATTERN){
+                if (mCurrentAnswerStr.equals(mCorrectAnswerStr)) {
+                    mShp.clearSharedPreferences();
+                    mLPV.resetPatternSuccessful();
+                } else {
+                    mLPV.resetPatternFailed();
+                }
+            } else if (mDialogType == DIALOG_SET_SECOND_PASS){
+                mLPV.patternSetSuccessful(mCurrentAnswerStr, mQuestionsArray[mSelectedQuestionPosition]);
+            }
+        }
+    };
+
+    private DialogInterface.OnClickListener onNegativeBtnListener = new DialogInterface.OnClickListener(){
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            dialog.cancel();
+        }
+    };
+
+    private DialogInterface.OnCancelListener onCancelListener = new DialogInterface.OnCancelListener() {
+        @Override
+        public void onCancel(DialogInterface dialog) {
+            if (mDialogType == DIALOG_SET_SECOND_PASS){
+                mLPV.secondPassDismissed();
+            }
+            mAnswer.getText().clear();
+        }
+    };
+
+    private View.OnClickListener onQuestionItemListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            for (int i = 0; i < mQuestionRBtnsList.size(); i++) {
+                RadioButton rb = mQuestionRBtnsList.get(i);
+                if (rb.equals(v)){
+                    rb.setChecked(!mIsQuestionChosen);
+                } else {
+                    if (!mIsQuestionChosen){
+                        rb.setVisibility(View.GONE);
+                    } else {
+                        rb.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+
+            if (!mIsQuestionChosen){
+                mAnswer.setVisibility(View.VISIBLE);
+                mAnswer.requestFocus();
+                mSelectedQuestionPosition = (int)v.getTag();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        showSoftKeyboard();
+                    }
+                }, mAnimationDuration);
+            } else {
+                mAnswer.setVisibility(View.GONE);
+                hideSoftKeyboard();
+            }
+
+            mIsQuestionChosen = !mIsQuestionChosen;
+        }
+    };
+
+
+    private void setLayoutTransition(ViewGroup v){
+//        LayoutTransition lt = new LayoutTransition();
+//        lt.enableTransitionType(LayoutTransition.CHANGING);
+//        lt.setDuration(mAnimationDuration);
+//        v.setLayoutTransition(lt);
     }
 }

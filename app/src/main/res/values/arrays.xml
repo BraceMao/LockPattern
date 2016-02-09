@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="secondPassQuestions">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
+        <item>Your best friend name?</item>
+        <item>Year when you get driver licence?</item>
+        <item>Your favorite singer?</item>
     </string-array>
 </resources>

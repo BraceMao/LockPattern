@@ -10,8 +10,8 @@
     </style>
 
     <style name="MaterialDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="colorAccent">#f58300</item>
-        <item name="android:textColorPrimary">#0b716c</item>
+        <item name="colorAccent">#af020d</item>
+        <item name="android:textColorPrimary">#0e5e5a</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -26,8 +26,28 @@
     <style name="lpv_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
+        <item name="radioBtnColor">@color/lpv_red</item>
+        <item name="titleColor">@color/lpv_red</item>
+        <item name="messageColor">@color/lpv_red</item>
+        <item name="textColor">@color/lpv_red</item>
+        <item name="buttonsColor">@color/lpv_red</item>
+        <item name="minAnswerLength">2</item>
+        <item name="maxAnswerLength">4</item>
+        <!--<item name="buttonStyles">@style/buttonStyle</item>-->
+        <!--<item name="forgetPassStyle">@style/forgetPassStyle</item>-->
     </style>
 
+    <style name="forgetPassStyle" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">@color/lpv_green</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="buttonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">@color/lpv_green</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textSize">20sp</item>
+    </style>
     <style name="dialogContainer_ll">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

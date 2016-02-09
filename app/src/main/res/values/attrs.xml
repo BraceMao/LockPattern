@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="lpv">
+        <attr name="buttonStyles" format="reference"/>
+        <attr name="forgotPassStyle" format="reference"/>
+        <attr name="buttonBgResource" format="reference"/>
+
         <attr name="itemAnimationScaleMax" format="float"/>
 
         <attr name="dotRadius" format="integer"/>
@@ -20,7 +24,9 @@
         <attr name="statusColorNormal" format="color" />
         <attr name="statusColorError" format="color" />
         <attr name="forgotPassColor" format="color" />
+        <attr name="buttonTextColor" format="color" />
 
+        <attr name="secondQuestions" format="reference"/>
         <attr name="forgotPassTitleStr" format="string" />
         <attr name="forgotPassFailedStr" format="string" />
         <attr name="forgotPassSuccessStr" format="string" />
@@ -36,6 +42,23 @@
         <attr name="secretModeEnable" format="boolean"/>
         <attr name="secondPassDialogEnable" format="boolean"/>
 
+    </declare-styleable>
+
+    <declare-styleable name="lpv_dialog">
+        //dialog general
+        <attr name="titleColor" format="color"/>
+        <attr name="messageColor" format="color"/>
+        <attr name="textColor" format="color"/>
+        <attr name="buttonsColor" format="color"/>
+        <attr name="minAnswerLength" format="integer"/>
+        <attr name="maxAnswerLength" format="integer"/>
+
+        //dialog secondPass
+        <attr name="radioBtnColor" format="color"/>
+        <attr name="secondPassTitleStr" format="string"/>
+        <attr name="secondPassMessageStr" format="string"/>
+        <attr name="secondPassPositiveStr" format="string"/>
+        <attr name="secondPassNegativeStr" format="string"/>
     </declare-styleable>
 </resources>
 

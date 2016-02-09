@@ -72,7 +72,7 @@ public class LPV_SecondPassDialog {
         b.setPositiveButton(pos, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mLPV.patternSetSuccessful(mSecondPassStr);
+//                mLPV.patternSetSuccessful(mSecondPassStr);
             }
         });
         b.setNegativeButton(neg, new DialogInterface.OnClickListener() {

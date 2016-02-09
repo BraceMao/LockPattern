@@ -21,10 +21,10 @@
     <string name="lpv_ad_secondPass_neg">Dismiss</string>
     <string name="lpv_ad_secondPass_pos">Confirm</string>
 
-    <string name="lpv_ad_forgotPass_title">Forgot patter?</string>
-    <string name="lpv_ad_forgotPass_message">For patter reset please, answer next question:</string>
-    <string name="lpv_ad_forgotPass_neg">Dismiss</string>
-    <string name="lpv_ad_forgotPass_pos">Confirm</string>
+    <string name="lpv_ad_restorePass_title">Forgot patter?</string>
+    <string name="lpv_ad_restorePass_message">For patter reset please, answer next question:</string>
+    <string name="lpv_ad_restorePass_neg">Dismiss</string>
+    <string name="lpv_ad_restorePass_pos">Confirm</string>
 
     <string name="lpv_snack_forgotPassFailed">Wrong answer!\nPatter recovery denied!</string>
     <string name="lpv_snack_forgotPassSuccess">Answer is correct!\nPlease set new pattern.</string>
