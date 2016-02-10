@@ -26,15 +26,6 @@
     <style name="lpv_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="radioBtnColor">@color/lpv_red</item>
-        <item name="titleColor">@color/lpv_red</item>
-        <item name="messageColor">@color/lpv_red</item>
-        <item name="textColor">@color/lpv_red</item>
-        <item name="buttonsColor">@color/lpv_red</item>
-        <item name="minAnswerLength">2</item>
-        <item name="maxAnswerLength">4</item>
-        <!--<item name="buttonStyles">@style/buttonStyle</item>-->
-        <!--<item name="forgetPassStyle">@style/forgetPassStyle</item>-->
     </style>
 
     <style name="forgetPassStyle" parent="Widget.AppCompat.Button">
