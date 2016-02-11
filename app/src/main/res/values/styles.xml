@@ -26,6 +26,7 @@
     <style name="lpv_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
+        <item name="lpv_logo">@drawable/name_app_main</item>
     </style>
 
     <style name="forgetPassStyle" parent="Widget.AppCompat.Button">

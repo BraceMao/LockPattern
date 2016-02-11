@@ -49,11 +49,13 @@ public class LockPatternView extends RelativeLayout{
     private LPV_Interface mInterface;
     private LPV_SharedPreferences mSharedPreferences;
     private BottomButtonsLayout mBottomButtonsLayout;
+    private RelativeLayout mLogoView;
     private Button mBtnCancel;
     private Button mBtnConfirm;
     private Canvas mPatternCanvas;
     private Drawable mBgNormal;
     private Drawable mBgError;
+    private Drawable mDrawableLogo;
     private Paint mDotLinePaint;
     private Paint mBgLinePaint;
     private Paint mPatternPaint;
@@ -65,6 +67,11 @@ public class LockPatternView extends RelativeLayout{
     private Bitmap mDotBitmapError;
     private ArrayList<ImageView> mAllDots = new ArrayList<>();
     private ArrayList<ImageView> mDotsTouched = new ArrayList<>();
+    private int mButtonsViewId = -111;
+    private int mForgetPassViewId = -222;
+    private int mMainPatternViewId = -333;
+    private int mStatusViewId = -444;
+    private int mLogoViewId = -555;
     private int mButtonTextColor = R.color.textColor;
     private int mStatusColorNormal = R.color.lpv_white_100;
     private int mStatusColorError = R.color.lpv_white_100;
@@ -176,11 +183,9 @@ public class LockPatternView extends RelativeLayout{
         initDefaultStrings();
         initDefaultBooleans();
     }
-
     private void initDefaultInteger(){
         mTextSize = mContext.getResources().getDimension(R.dimen.lpv_tv_textSize)/mDisplayDensity;
     }
-
     private void initDefaultColors(){
         mStatusColorNormal = ContextCompat.getColor(mContext, mStatusColorNormal);
         mStatusColorError = ContextCompat.getColor(mContext, mStatusColorError);
@@ -195,7 +200,6 @@ public class LockPatternView extends RelativeLayout{
 
         mButtonTextColor = ContextCompat.getColor(mContext, mButtonTextColor);
     }
-
     private void initDefaultStrings(){
         mForgotPassTitleStr = mContext.getString(R.string.lpv_tv_forgotPass_title);
         mForgotPassFailedStr = mContext.getString(R.string.lpv_snack_forgotPassFailed);
@@ -210,7 +214,6 @@ public class LockPatternView extends RelativeLayout{
         mConfirmBtnStr = mContext.getString(R.string.lpv_btn_actionConfirm);
         mRepeatBtnStr = mContext.getString(R.string.lpv_btn_actionRepeat);
     }
-
     private void initDefaultBooleans(){
         mDotVibrateEnable = true;
         mErrorVibrateEnable = true;
@@ -288,7 +291,7 @@ public class LockPatternView extends RelativeLayout{
     public void resetPatternSuccessful(){
         mCurrentLockStatus = SET_PATTERN;
         mStatusTitle.setText(mTitleSetNewPatterStr);
-        mForgotPassTitle.setVisibility(GONE);
+        mForgotPassTitle.setVisibility(INVISIBLE);
         showSnackBar(mForgotPassSuccessStr);
     }
 
@@ -314,6 +317,7 @@ public class LockPatternView extends RelativeLayout{
         setCustomForgotPassStyle(attrs);
         setCustomButtonsStyle(attrs);
         setCustomDialogStyle(attrs);
+        setCustomLogoStyle(attrs);
     }
 
     private void setCustomGeneralStyle(AttributeSet attrs){
@@ -327,25 +331,38 @@ public class LockPatternView extends RelativeLayout{
             lpv.recycle();
         }
     }
-
-    private void setCustomStatusStyle(AttributeSet attrs){
+    private void setCustomButtonsStyle(AttributeSet attrs){
         TypedArray ta = mContext.getTheme().obtainStyledAttributes(attrs,
-                R.styleable.lpv_status, 0, 0);
+                R.styleable.lpv_btn, 0, 0);
         try {
-            mStatusColorNormal = ta.getInteger(R.styleable.lpv_status_statusNormalColor, mStatusColorNormal);
-            mStatusColorError = ta.getInteger(R.styleable.lpv_status_statusErrorColor, mStatusColorError);
+            mButtonBgResource = ta.getDrawable(R.styleable.lpv_btn_btnBgResource);
+            mButtonTextColor = ta.getInteger(R.styleable.lpv_btn_btnTextColor, mButtonTextColor);
 
-            String titleSetNewPattern = ta.getString(R.styleable.lpv_status_statusSetNewPatternStr);
-            String titleConfirmPatternStr = ta.getString(R.styleable.lpv_status_statusConfirmPatternStr);
-            String titleErrorPatternStr = ta.getString(R.styleable.lpv_status_statusErrorPatternStr);
-            mTitleSetNewPatterStr = titleSetNewPattern != null ? titleSetNewPattern : mTitleSetNewPatterStr;
-            mTitleConfirmPatternStr = titleConfirmPatternStr != null ? titleConfirmPatternStr : mTitleConfirmPatternStr;
-            mTitlePatterErrorStr = titleErrorPatternStr != null ? titleErrorPatternStr : mTitlePatterErrorStr;
+            String cancelStr = ta.getString(R.styleable.lpv_btn_btnCancelStr);
+            String confirmStr = ta.getString(R.styleable.lpv_btn_btnConfirmStr);
+            String repeatStr = ta.getString(R.styleable.lpv_btn_btnRepeatStr);
+            mCancelBtnStr = cancelStr != null ? cancelStr : mCancelBtnStr;
+            mConfirmBtnStr = confirmStr != null ? confirmStr : mConfirmBtnStr;
+            mRepeatBtnStr = repeatStr != null ? repeatStr : mRepeatBtnStr;
         } finally {
             ta.recycle();
         }
     }
-
+    private void setCustomForgotPassStyle(AttributeSet attrs){
+        TypedArray ta = mContext.getTheme().obtainStyledAttributes(attrs,
+                R.styleable.lpv_forgotPass, 0, 0);
+        try {
+            mForgotPassColor = ta.getInteger(R.styleable.lpv_forgotPass_forgotPassColor, mForgotPassColor);
+            String forgotPass = ta.getString(R.styleable.lpv_forgotPass_forgotPassTitleStr);
+            String forgotPassFailed = ta.getString(R.styleable.lpv_forgotPass_forgotPassFailedStr);
+            String forgotPassSuccess = ta.getString(R.styleable.lpv_forgotPass_forgotPassSuccessStr);
+            mForgotPassTitleStr = forgotPass != null ? forgotPass : mForgotPassTitleStr;
+            mForgotPassFailedStr = forgotPassFailed != null ? forgotPassFailed : mForgotPassFailedStr;
+            mForgotPassSuccessStr = forgotPassSuccess != null ? forgotPassSuccess : mForgotPassSuccessStr;
+        } finally {
+            ta.recycle();
+        }
+    }
     private void setCustomMainPatternStyle(AttributeSet attrs){
         TypedArray ta = mContext.getTheme().obtainStyledAttributes(attrs,
                 R.styleable.lpv_main, 0, 0);
@@ -380,41 +397,23 @@ public class LockPatternView extends RelativeLayout{
             ta.recycle();
         }
     }
-
-    private void setCustomForgotPassStyle(AttributeSet attrs){
+    private void setCustomStatusStyle(AttributeSet attrs){
         TypedArray ta = mContext.getTheme().obtainStyledAttributes(attrs,
-                R.styleable.lpv_forgotPass, 0, 0);
+                R.styleable.lpv_status, 0, 0);
         try {
-            mForgotPassColor = ta.getInteger(R.styleable.lpv_forgotPass_forgotPassColor, mForgotPassColor);
-            String forgotPass = ta.getString(R.styleable.lpv_forgotPass_forgotPassTitleStr);
-            String forgotPassFailed = ta.getString(R.styleable.lpv_forgotPass_forgotPassFailedStr);
-            String forgotPassSuccess = ta.getString(R.styleable.lpv_forgotPass_forgotPassSuccessStr);
-            mForgotPassTitleStr = forgotPass != null ? forgotPass : mForgotPassTitleStr;
-            mForgotPassFailedStr = forgotPassFailed != null ? forgotPassFailed : mForgotPassFailedStr;
-            mForgotPassSuccessStr = forgotPassSuccess != null ? forgotPassSuccess : mForgotPassSuccessStr;
+            mStatusColorNormal = ta.getInteger(R.styleable.lpv_status_statusNormalColor, mStatusColorNormal);
+            mStatusColorError = ta.getInteger(R.styleable.lpv_status_statusErrorColor, mStatusColorError);
+
+            String titleSetNewPattern = ta.getString(R.styleable.lpv_status_statusSetNewPatternStr);
+            String titleConfirmPatternStr = ta.getString(R.styleable.lpv_status_statusConfirmPatternStr);
+            String titleErrorPatternStr = ta.getString(R.styleable.lpv_status_statusErrorPatternStr);
+            mTitleSetNewPatterStr = titleSetNewPattern != null ? titleSetNewPattern : mTitleSetNewPatterStr;
+            mTitleConfirmPatternStr = titleConfirmPatternStr != null ? titleConfirmPatternStr : mTitleConfirmPatternStr;
+            mTitlePatterErrorStr = titleErrorPatternStr != null ? titleErrorPatternStr : mTitlePatterErrorStr;
         } finally {
             ta.recycle();
         }
     }
-
-    private void setCustomButtonsStyle(AttributeSet attrs){
-        TypedArray ta = mContext.getTheme().obtainStyledAttributes(attrs,
-                R.styleable.lpv_btn, 0, 0);
-        try {
-            mButtonBgResource = ta.getDrawable(R.styleable.lpv_btn_btnBgResource);
-            mButtonTextColor = ta.getInteger(R.styleable.lpv_btn_btnTextColor, mButtonTextColor);
-
-            String cancelStr = ta.getString(R.styleable.lpv_btn_btnCancelStr);
-            String confirmStr = ta.getString(R.styleable.lpv_btn_btnConfirmStr);
-            String repeatStr = ta.getString(R.styleable.lpv_btn_btnRepeatStr);
-            mCancelBtnStr = cancelStr != null ? cancelStr : mCancelBtnStr;
-            mConfirmBtnStr = confirmStr != null ? confirmStr : mConfirmBtnStr;
-            mRepeatBtnStr = repeatStr != null ? repeatStr : mRepeatBtnStr;
-        } finally {
-            ta.recycle();
-        }
-    }
-
     private void setCustomDialogStyle(AttributeSet attrs){
         TypedArray ta = mContext.getTheme().obtainStyledAttributes(attrs,
                 R.styleable.lpv_dialog, 0, 0);
@@ -451,14 +450,25 @@ public class LockPatternView extends RelativeLayout{
             ta.recycle();
         }
     }
+    private void setCustomLogoStyle(AttributeSet attrs){
+        TypedArray ta = mContext.getTheme().obtainStyledAttributes(attrs,
+                R.styleable.lpv_logo, 0, 0);
+        try {
+            //dialog general
+            mDrawableLogo = ta.getDrawable(R.styleable.lpv_logo_lpv_logo);
+        } finally {
+            ta.recycle();
+        }
+    }
 
     private void onCreateLockPatternView() {
         initItems();
 
+        createAndAddBottomButtons();
+        createForgotPassView();
         createAndAddMainPatternView();
         createAndAddTitleStatusTextView();
-        createForgotPassView();
-        createAndAddBottomButtons();
+        createAndAddLogoView();
 
         checkSavedPass();
     }
@@ -488,6 +498,11 @@ public class LockPatternView extends RelativeLayout{
 
         setWillNotDraw(false);
         clearPathBitmap();
+
+        DisplayMetrics dm = new DisplayMetrics();
+        ((Activity)getContext()).getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels;
+        mMainPatternViewSize = width - width/5;
     }
 
     private void getStatusBarHeight(){
@@ -524,25 +539,28 @@ public class LockPatternView extends RelativeLayout{
         }, 50);
     }
 
-    private void createAndAddMainPatternView(){
-        mMainPatternView = new MainPatternView(mContext);
-        addView(mMainPatternView);
-    }
-
-    private void createAndAddTitleStatusTextView(){
-        mStatusTitle = new StatusTextView(mContext);
-        addView(mStatusTitle);
-    }
-
     private void createAndAddBottomButtons(){
         mBottomButtonsLayout = new BottomButtonsLayout(mContext);
         addView(mBottomButtonsLayout);
     }
-
     private void createForgotPassView(){
         mForgotPassTitle = new ForgotPassTextView(mContext);
         if (mSecondPassDialogEnable){
             addView(mForgotPassTitle);
+        }
+    }
+    private void createAndAddMainPatternView(){
+        mMainPatternView = new MainPatternView(mContext);
+        addView(mMainPatternView);
+    }
+    private void createAndAddTitleStatusTextView(){
+        mStatusTitle = new StatusTextView(mContext);
+        addView(mStatusTitle);
+    }
+    private void createAndAddLogoView(){
+        if (mDrawableLogo != null){
+            mLogoView = new CustomLogo(mContext);
+            addView(mLogoView);
         }
     }
 
@@ -832,10 +850,6 @@ public class LockPatternView extends RelativeLayout{
             onCreateMainPatternView();
         }
 
-        public int getMainPatternViewSize(){
-            return mMainPatternViewSize;
-        }
-
         public void setPatternEditEnable(boolean enable){
             mPatternEditEnable = enable;
             for (int i = 0; i < mAllDots.size(); i++) {
@@ -846,7 +860,7 @@ public class LockPatternView extends RelativeLayout{
         private void onCreateMainPatternView(){
             calculateItemsData();
 
-            setId((int) System.currentTimeMillis());
+            setId(mMainPatternViewId);
             setOrientation(LinearLayout.VERTICAL);
 
             for (int i = 0; i < mHorizontalDotsCount; i++) {
@@ -919,9 +933,10 @@ public class LockPatternView extends RelativeLayout{
         }
 
         private void setMainPatternViewLayoutParams(){
-            RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(mMainPatternViewSize, mMainPatternViewSize);
-            rlp.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-            setLayoutParams(rlp);
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(mMainPatternViewSize, mMainPatternViewSize);
+            lp.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+            lp.addRule(ABOVE, mForgetPassViewId);
+            setLayoutParams(lp);
         }
 
         private void calculateItemsData(){
@@ -941,12 +956,6 @@ public class LockPatternView extends RelativeLayout{
             mMatrixSize = mHorizontalDotsCount * mVerticalDotsCount;
             mDotsCoordinatesX = new float[mMatrixSize];
             mDotsCoordinatesY = new float[mMatrixSize];
-            /////////////
-            DisplayMetrics dm = new DisplayMetrics();
-            ((Activity)getContext()).getWindowManager().getDefaultDisplay().getMetrics(dm);
-            int width = dm.widthPixels;
-            mMainPatternViewSize = width - width/5;
-            /////////////
         }
 
         private void drawItemNormal(){
@@ -984,7 +993,7 @@ public class LockPatternView extends RelativeLayout{
                         calculateDotsCoordinates();
                     }
                 }
-            }, 50);
+            }, 200);
         }
 
         private void calculateItemSize(){
@@ -1013,6 +1022,7 @@ public class LockPatternView extends RelativeLayout{
         }
 
         private void onCreateStatusTextView(){
+            setId(mStatusViewId);
             setGravity(Gravity.CENTER_HORIZONTAL);
             setTextSize(mTextSize);
             setTextColor(mStatusColorNormal);
@@ -1022,11 +1032,12 @@ public class LockPatternView extends RelativeLayout{
 
         private void setLayoutParams(){
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             int m = (int) mContext.getResources().getDimension(R.dimen.activity_vertical_margin);
 
-            lp.setMargins(m, m, m, m);
-            lp.addRule(RelativeLayout.ABOVE, mMainPatternView.getId());
+            lp.setMargins(m, m/2, m, m/2);
+            lp.addRule(ABOVE, mMainPatternViewId);
+            lp.addRule(CENTER_HORIZONTAL, RelativeLayout.TRUE);
             setLayoutParams(lp);
         }
     }
@@ -1051,11 +1062,12 @@ public class LockPatternView extends RelativeLayout{
         }
 
         private void onCreateForgotPassTextView(){
+            setId(mForgetPassViewId);
             setGravity(Gravity.CENTER_HORIZONTAL);
             setTextSize(mTextSize);
             setTextColor(mForgotPassColor);
             setText(mForgotPassTitleStr);
-            setVisibility(GONE);
+            setVisibility(INVISIBLE);
             setOnClickListener(this);
 
             int[] attrs = new int[]{R.attr.selectableItemBackground};
@@ -1072,11 +1084,11 @@ public class LockPatternView extends RelativeLayout{
                     LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             int m = (int) mContext.getResources().getDimension(R.dimen.activity_vertical_margin);
 
-            lp.setMargins(m, m, m, m);
+            lp.setMargins(m / 2, m / 2, m / 2, 0);
             lp.addRule(CENTER_HORIZONTAL, TRUE);
-            lp.addRule(BELOW, mMainPatternView.getId());
+            lp.addRule(ABOVE, mButtonsViewId);
             setLayoutParams(lp);
-            setPadding(m, m, m, m);
+            setPadding(m, m, m, 0);
         }
 
         @Override
@@ -1102,7 +1114,6 @@ public class LockPatternView extends RelativeLayout{
 
     private class BottomButtonsLayout extends LinearLayout {
 
-//        private LPV_SecondPassDialog mSecondPassDialog;
         private LPV_Dialog mSecondPassDialog;
         private int mMargin =  16;
 
@@ -1127,13 +1138,14 @@ public class LockPatternView extends RelativeLayout{
                 mBtnConfirm.setVisibility(VISIBLE);
                 mMainPatternView.setPatternEditEnable(false);
             } else {
-                mBtnCancel.setVisibility(GONE);
-                mBtnConfirm.setVisibility(GONE);
+                mBtnCancel.setVisibility(INVISIBLE);
+                mBtnConfirm.setVisibility(INVISIBLE);
                 mMainPatternView.setPatternEditEnable(true);
             }
         }
 
         private void onCreateBottomButtonsLayout(){
+            setId(mButtonsViewId);
             setLayoutParams();
             setOrientation(HORIZONTAL);
             addView(addCancelButton());
@@ -1141,12 +1153,11 @@ public class LockPatternView extends RelativeLayout{
         }
 
         private void setLayoutParams(){
-            int width = mLPV.mMainPatternView.getMainPatternViewSize();
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(width,
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(mMainPatternViewSize,
                     RelativeLayout.LayoutParams.WRAP_CONTENT);
             lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
             lp.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
-            lp.setMargins(mMargin, mMargin, mMargin, mMargin * 2);
+            lp.setMargins(mMargin, mMargin, mMargin, mMargin);
             setLayoutParams(lp);
         }
 
@@ -1164,7 +1175,7 @@ public class LockPatternView extends RelativeLayout{
             if (mButtonBgResource != null){
                 mBtnCancel.setBackground(mButtonBgResource);
             }
-            mBtnCancel.setVisibility(GONE);
+            mBtnCancel.setVisibility(INVISIBLE);
             return mBtnCancel;
         }
 
@@ -1180,7 +1191,7 @@ public class LockPatternView extends RelativeLayout{
             if (mButtonBgResource != null){
                 mBtnConfirm.setBackground(mButtonBgResource);
             }
-            mBtnConfirm.setVisibility(GONE);
+            mBtnConfirm.setVisibility(INVISIBLE);
             return mBtnConfirm;
         }
 
@@ -1189,7 +1200,7 @@ public class LockPatternView extends RelativeLayout{
             public void onClick(View v) {
                 mInterface.patternSubmitCanceled();
                 setCurrentLockStatus(mLPV.SET_PATTERN);
-                mLPV.mStatusTitle.setText(mTitleSetNewPatterStr);
+                mStatusTitle.setText(mTitleSetNewPatterStr);
                 setBottomButtonsVisibility(false);
                 mNeedSetDefItems = true;
                 prepareDefaultView(0);
@@ -1239,4 +1250,49 @@ public class LockPatternView extends RelativeLayout{
 
     }
 
+    private class CustomLogo extends RelativeLayout{
+
+        private int mMargin =  16;
+
+        public CustomLogo(Context context) {
+            super(context);
+            createLogoView();
+        }
+
+        public CustomLogo(Context context, AttributeSet attrs) {
+            super(context, attrs);
+            createLogoView();
+        }
+
+        public CustomLogo(Context context, AttributeSet attrs, int defStyleAttr) {
+            super(context, attrs, defStyleAttr);
+            createLogoView();
+        }
+
+        private void createLogoView(){
+            setId(mLogoViewId);
+            setLogo();
+            setLayoutParams();
+            invalidate();
+        }
+
+        private void setLogo(){
+            ImageView logo = new ImageView(mContext);
+            logo.setImageDrawable(mDrawableLogo);
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            lp.addRule(CENTER_IN_PARENT, RelativeLayout.TRUE);
+            logo.setLayoutParams(lp);
+            addView(logo);
+        }
+
+        private void setLayoutParams(){
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                    LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+            lp.addRule(ABOVE, mStatusViewId);
+            mMargin = Math.round(mMargin * mDisplayDensity);
+            lp.setMargins(mMargin, mMargin, mMargin, mMargin);
+            setLayoutParams(lp);
+        }
+    }
 }

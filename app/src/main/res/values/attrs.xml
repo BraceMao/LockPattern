@@ -71,5 +71,9 @@
         <attr name="dialogPassRestorePositiveStr" format="string"/>
         <attr name="dialogPassRestoreNegativeStr" format="string"/>
     </declare-styleable>
+
+    <declare-styleable name="lpv_logo">
+        <attr name="lpv_logo" format="reference"/>
+    </declare-styleable>
 </resources>
 
