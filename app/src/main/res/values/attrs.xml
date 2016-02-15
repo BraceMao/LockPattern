@@ -37,6 +37,7 @@
         <attr name="mainBgNormalColor" format="color" />
         <attr name="mainBgErrorColor" format="color" />
 
+        <attr name="mainIsBgEnable" format="boolean"/>
         <attr name="dotVibrateEnable" format="boolean"/>
         <attr name="errorVibrateEnable" format="boolean"/>
     </declare-styleable>

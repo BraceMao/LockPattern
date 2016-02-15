@@ -375,9 +375,6 @@ public class LPV_Dialog {
         rb.setTextSize(mTextSize);
         rb.setText(mQuestionsArray[pos]);
         rb.setOnClickListener(onQuestionItemListener);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-//            rb.setButtonTintList(ColorStateList.valueOf(mAccentColor));
-//        }
         rb.setSupportButtonTintList(csl);
 
         mQuestionRBtnsList.add(rb);
@@ -476,6 +473,14 @@ public class LPV_Dialog {
         public void onCancel(DialogInterface dialog) {
             if (mDialogType == DIALOG_SET_SECOND_PASS){
                 mLPV.secondPassDismissed();
+                if (mAnswer.getVisibility() == View.VISIBLE){
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            onQuestionItemListener.onClick(mQuestionRBtnsList.get(mSelectedQuestionPosition));
+                        }
+                    }, 500);
+                }
             }
             mAnswer.getText().clear();
         }
