@@ -1,4 +1,4 @@
-package com.andriyantonov.lockpatternt.lock.view;
+package com.pro100svitlo.lockpattern;
 
 import android.content.Context;
 import android.content.SharedPreferences;

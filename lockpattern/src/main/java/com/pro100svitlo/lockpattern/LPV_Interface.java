@@ -1,4 +1,4 @@
-package com.andriyantonov.lockpatternt.lock.view;
+package com.pro100svitlo.lockpattern;
 
 /**
  * Created by pro100svitlo on 1/24/16.

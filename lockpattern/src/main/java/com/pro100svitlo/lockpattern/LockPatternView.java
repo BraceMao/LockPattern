@@ -1,4 +1,4 @@
-package com.andriyantonov.lockpatternt.lock.view;
+package com.pro100svitlo.lockpattern;
 
 import android.animation.LayoutTransition;
 import android.app.Activity;
@@ -24,18 +24,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.andriyantonov.lockpatternt.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by pro100svitlo on 1/24/16.
@@ -187,23 +182,14 @@ public class LockPatternView extends RelativeLayout{
         mContext = context;
         initDefaultItems();
     }
-
     public LockPatternView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
         initDefaultItems();
         getItemsFromTheme(attrs);
     }
-
     public LockPatternView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mContext = context;
-        initDefaultItems();
-        getItemsFromTheme(attrs);
-    }
-
-    public LockPatternView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
         mContext = context;
         initDefaultItems();
         getItemsFromTheme(attrs);
@@ -218,7 +204,7 @@ public class LockPatternView extends RelativeLayout{
         initDefaultBooleans();
     }
     private void initDefaultInteger(){
-        mTextSize = mContext.getResources().getDimension(R.dimen.lpv_tv_textSize)/mDisplayDensity;
+        mTextSize = mMargin16;
         mMargin16 = Math.round(mMargin16 * mDisplayDensity);
     }
     private void initDefaultColors(){
@@ -268,7 +254,6 @@ public class LockPatternView extends RelativeLayout{
         setCustomDialogStyle(attrs);
         setCustomLogoStyle(attrs);
     }
-
     private void setCustomGeneralStyle(AttributeSet attrs){
         TypedArray lpv = mContext.getTheme().obtainStyledAttributes(attrs,
                 R.styleable.lpv_general, 0, 0);
@@ -447,6 +432,7 @@ public class LockPatternView extends RelativeLayout{
         mScreenWidth = w;
         mScreenHeight = h;
         calculateDotsCoordinates();
+
         playStartAnimation();
     }
 
@@ -953,7 +939,7 @@ public class LockPatternView extends RelativeLayout{
 
     private class MainPatternView extends LinearLayout {
 
-        private LinearLayout.LayoutParams mPatternRowParams, mPatternItemParams;
+        private LayoutParams mPatternRowParams, mPatternItemParams;
 
         private Paint mItemPaint;
         private Bitmap.Config mItemBitmapConfig;
@@ -1023,7 +1009,7 @@ public class LockPatternView extends RelativeLayout{
             LinearLayout row = new LinearLayout(mContext);
             row.setOrientation(LinearLayout.HORIZONTAL);
             if (mPatternRowParams == null){
-                mPatternRowParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
+                mPatternRowParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
             }
             mPatternRowParams.weight = 1f;
             row.setLayoutParams(mPatternRowParams);
@@ -1039,7 +1025,7 @@ public class LockPatternView extends RelativeLayout{
             item.setImageBitmap(mDotBitmapNormal);
             int scale = 2;
             if (mPatternItemParams == null){
-                mPatternItemParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                mPatternItemParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT);
                 mPatternItemParams.gravity = Gravity.CENTER_VERTICAL;
                 mPatternItemMargin = Math.round(mPatternItemMargin * mDisplayDensity);
@@ -1135,9 +1121,9 @@ public class LockPatternView extends RelativeLayout{
         }
 
         private void setLayoutParams(){
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-            int m = (int) mContext.getResources().getDimension(R.dimen.activity_vertical_margin);
+            LayoutParams lp = new LayoutParams(
+                    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+            int m = mMargin16;
 
             lp.setMargins(m, m/2, m, m/2);
             lp.addRule(ABOVE, mMainPatternViewId);
@@ -1146,7 +1132,7 @@ public class LockPatternView extends RelativeLayout{
         }
     }
 
-    private class ForgotPassTextView extends TextView implements View.OnClickListener {
+    private class ForgotPassTextView extends TextView implements OnClickListener {
 
         private LPV_Dialog mPassResetDialog;
 
@@ -1184,9 +1170,9 @@ public class LockPatternView extends RelativeLayout{
         }
 
         private void setLayoutParams(){
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-                    LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-            int m = (int) mContext.getResources().getDimension(R.dimen.activity_vertical_margin);
+            LayoutParams lp = new LayoutParams(
+                    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+            int m = mMargin16;
 
             lp.setMargins(m / 2, m / 2, m / 2, 0);
             lp.addRule(CENTER_HORIZONTAL, TRUE);
@@ -1267,8 +1253,8 @@ public class LockPatternView extends RelativeLayout{
 
         private Button addCancelButton(){
             mBtnCancel = new Button(mContext);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            LayoutParams lp = new LayoutParams(0,
+                    LayoutParams.WRAP_CONTENT);
             lp.weight = 1;
             lp.setMargins(0, 0, mMargin, 0);
             mBtnCancel.setLayoutParams(lp);
@@ -1285,7 +1271,7 @@ public class LockPatternView extends RelativeLayout{
 
         private Button addConfirmButton(){
             mBtnConfirm = new Button(mContext);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
+            LayoutParams lp = new LayoutParams(0, LayoutParams.WRAP_CONTENT);
             lp.weight = 1;
             lp.setMargins(mMargin, 0, 0, 0);
             mBtnConfirm.setLayoutParams(lp);
@@ -1378,7 +1364,7 @@ public class LockPatternView extends RelativeLayout{
         }
 
         private void setLayoutParams(){
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+            LayoutParams lp = new LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
             lp.addRule(ABOVE, mStatusViewId);
             lp.addRule(CENTER_HORIZONTAL, RelativeLayout.TRUE);

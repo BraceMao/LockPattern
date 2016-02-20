@@ -6,8 +6,8 @@
 
 
 
-    <dimen name="lpv_tv_ItemSize">15dp</dimen>
-    <dimen name="lpv_tv_titleSize">24sp</dimen>
-    <dimen name="lpv_tv_forgotPassSize">16sp</dimen>
-    <dimen name="lpv_tv_textSize">16sp</dimen>
+    <!--<dimen name="lpv_tv_ItemSize">15dp</dimen>-->
+    <!--<dimen name="lpv_tv_titleSize">24sp</dimen>-->
+    <!--<dimen name="lpv_tv_forgotPassSize">16sp</dimen>-->
+    <!--<dimen name="lpv_tv_textSize">16sp</dimen>-->
 </resources>

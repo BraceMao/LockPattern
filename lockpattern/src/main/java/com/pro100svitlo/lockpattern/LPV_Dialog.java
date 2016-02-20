@@ -1,14 +1,9 @@
-package com.andriyantonov.lockpatternt.lock.view;
+package com.pro100svitlo.lockpattern;
 
-import android.animation.LayoutTransition;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.os.Build;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -16,7 +11,6 @@ import android.support.v7.widget.AppCompatRadioButton;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -26,8 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-
-import com.andriyantonov.lockpatternt.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -331,8 +323,6 @@ public class LPV_Dialog {
         mContainer.setPadding(mMarginLeftRight, mMarginTopBottom, mMarginLeftRight, 0);
         mContainer.setLayoutParams(lp);
         mContainer.setOrientation(LinearLayout.VERTICAL);
-
-        setLayoutTransition(mContainer);
     }
 
     private void setQuestionView(){
@@ -351,7 +341,6 @@ public class LPV_Dialog {
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         mQuestionsGroup.setLayoutParams(rglp);
-        setLayoutTransition(mQuestionsGroup);
         ColorStateList colorStateList = new ColorStateList(
                 new int[][]{
                         new int[]{mRadioBtnColor},
@@ -489,11 +478,10 @@ public class LPV_Dialog {
     private View.OnClickListener onQuestionItemListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            for (int i = 0; i < mQuestionRBtnsList.size(); i++) {
+            int size = mQuestionRBtnsList.size();
+            for (int i = 0; i < size; i++) {
                 RadioButton rb = mQuestionRBtnsList.get(i);
-                if (rb.equals(v)){
-                    rb.setChecked(!mIsQuestionChosen);
-                } else {
+                if (!rb.equals(v)){
                     if (!mIsQuestionChosen){
                         rb.setVisibility(View.GONE);
                     } else {
@@ -511,8 +499,9 @@ public class LPV_Dialog {
                     public void run() {
                         showSoftKeyboard();
                     }
-                }, mAnimationDuration);
+                }, mAnimationDuration * 2);
             } else {
+                mQuestionsGroup.clearCheck();
                 mAnswer.setVisibility(View.GONE);
                 hideSoftKeyboard();
             }
@@ -520,12 +509,4 @@ public class LPV_Dialog {
             mIsQuestionChosen = !mIsQuestionChosen;
         }
     };
-
-
-    private void setLayoutTransition(ViewGroup v){
-//        LayoutTransition lt = new LayoutTransition();
-//        lt.enableTransitionType(LayoutTransition.CHANGING);
-//        lt.setDuration(mAnimationDuration);
-//        v.setLayoutTransition(lt);
-    }
 }

@@ -8,9 +8,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Toast;
 
-import com.andriyantonov.lockpatternt.lock.view.LPV_SharedPreferences;
+import com.pro100svitlo.lockpattern.LPV_SharedPreferences;
 
 public class ActivityNext extends AppCompatActivity {
 

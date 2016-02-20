@@ -8,8 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.andriyantonov.lockpatternt.lock.view.LPV_Interface;
-import com.andriyantonov.lockpatternt.lock.view.LockPatternView;
+import com.pro100svitlo.lockpattern.LPV_Interface;
+import com.pro100svitlo.lockpattern.LockPatternView;
+
 
 /**
  * A placeholder fragment containing a simple view.
