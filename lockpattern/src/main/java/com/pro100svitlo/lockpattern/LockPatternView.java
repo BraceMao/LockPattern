@@ -30,6 +30,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.pro100svitlo.lockpattern.interfaces.SecondPassDialogInterface;
+import com.pro100svitlo.lockpattern.interfaces.LPV_Interface;
+
 import java.util.ArrayList;
 
 /**
@@ -42,7 +45,8 @@ public class LockPatternView extends RelativeLayout{
     public final int CHECK_PATTERN = 300;
 
     private Context mContext;
-    private LPV_Interface mInterface;
+    private LPV_Interface mInterfaceLPV;
+    private SecondPassDialogInterface mInterfaceSPD;
 
     private LockPatternView mLPV;
     private MainPatternView mMainPatternView;
@@ -68,10 +72,10 @@ public class LockPatternView extends RelativeLayout{
     private Bitmap mDotBitmapError;
     private ArrayList<ImageView> mAllDots;
     private ArrayList<ImageView> mDotsTouched = new ArrayList<>();
-    private int mDotColorNormal = R.color.lpv_white_100;
+    private int mDotColorNormal = R.color.lpv_white;
     private int mDotColorTouched = R.color.lpv_green;
     private int mDotColorError = R.color.lpv_red;
-    private int mBgColorNormal = R.color.lpv_white_100;
+    private int mBgColorNormal = R.color.lpv_white;
     private int mBgColorError = R.color.lpv_red;
     private int mDotAnimationDuration = 100;
     private int mDotCountMin = 4;
@@ -101,7 +105,7 @@ public class LockPatternView extends RelativeLayout{
 
 
     //ButtonsView
-    private int mButtonTextColor = R.color.textColor;
+    private int mButtonTextColor = R.color.lpv_gray;
     private Drawable mButtonBgResource;
     private String mBtnCancelStr;
     private String mBtnConfirmStr;
@@ -109,8 +113,8 @@ public class LockPatternView extends RelativeLayout{
     ////
 
     //StatusView
-    private int mStatusColorNormal = R.color.lpv_white_100;
-    private int mStatusColorError = R.color.lpv_white_100;
+    private int mStatusColorNormal = R.color.lpv_white;
+    private int mStatusColorError = R.color.lpv_white;
     private int mCurrentLockStatus;
     private String mTitleSetNewPatterStr;
     private String mTitlePatterErrorStr;
@@ -139,7 +143,7 @@ public class LockPatternView extends RelativeLayout{
 
     //ForgotPasswordView
     private String mForgotPassTitleStr;
-    private int mForgotPassColor = R.color.lpv_white_100;
+    private int mForgotPassColor = R.color.lpv_white;
     ////
 
     //LogoView
@@ -225,7 +229,7 @@ public class LockPatternView extends RelativeLayout{
         mForgotPassTitleStr = mContext.getString(R.string.lpv_tv_forgotPass_title);
         mPassRestoreFailedStr = mContext.getString(R.string.lpv_snack_forgotPassFailed);
         mPassRestoreSuccessStr = mContext.getString(R.string.lpv_snack_forgotPassSuccess);
-        mPatternToShortStr = mContext.getString(R.string.lpv_tv_shortPattern);
+        mPatternToShortStr = mContext.getString(R.string.lpv_snackbar_shortPattern);
 
         mTitleSetNewPatterStr = mContext.getString(R.string.lpv_tv_statusTitle_setNewPattern);
         mTitleConfirmPatternStr = mContext.getString(R.string.lpv_tv_statusTitle_confirmPattern);
@@ -446,9 +450,11 @@ public class LockPatternView extends RelativeLayout{
     }
 
 
-    public void initLockPatternView(Activity a, LPV_Interface lpv_interface){
+    public void initLockPatternView(Activity a, LPV_Interface lpv_interface,
+                                    SecondPassDialogInterface spd_interface){
         a.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        mInterface = lpv_interface;
+        mInterfaceLPV = lpv_interface;
+        mInterfaceSPD = spd_interface;
         mContext = a;
 
         onCreateLockPatternView();
@@ -466,7 +472,8 @@ public class LockPatternView extends RelativeLayout{
     }
 
     public void patternSetSuccessful(String secondPass, String question){
-        mInterface.patternConfirmedSuccess(true, mPassConfirmStr, secondPass);
+        mInterfaceLPV.patternConfirmed(true, mPassConfirmStr);
+
         savePass(mPassConfirmStr, secondPass, question);
         setCurrentLockStatus(CHECK_PATTERN);
         mBottomButtonsLayout.setBottomButtonsVisibility(false);
@@ -508,9 +515,11 @@ public class LockPatternView extends RelativeLayout{
                         setItemDelayedVisibility(true, mAllDots.get(i), mTimeOut + mTimeOut * i / 4);
                     }
                 }
-            }, mTimeOut/2);
+            }, mTimeOut / 2);
             setItemDelayedVisibility(true, mStatusTitle, mTimeOut + mTimeOut/2);
-            setItemDelayedVisibility(true, mLogoView, mTimeOut + mTimeOut/2);
+            if (mLogoView != null){
+                setItemDelayedVisibility(true, mLogoView, mTimeOut + mTimeOut/2);
+            }
 
         }
     }
@@ -630,8 +639,8 @@ public class LockPatternView extends RelativeLayout{
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (mInterface != null) {
-                    mInterface.patternExist(patternExist);
+                if (mInterfaceLPV != null) {
+                    mInterfaceLPV.isPatternExist(patternExist);
                 } else {
                     sendInterfacePassExist(patternExist);
                 }
@@ -890,7 +899,7 @@ public class LockPatternView extends RelativeLayout{
         if (mPassConfirmStr.equals(mPassSetStr)){
             mBottomButtonsLayout.setBottomButtonsVisibility(true);
         } else {
-            mInterface.patternConfirmFailed(mPassConfirmStr);
+            mInterfaceLPV.patternFailed();
             patternError();
             mCurrentLockStatus = SET_PATTERN;
             mStatusTitle.setText(mTitleSetNewPatterStr);
@@ -901,9 +910,9 @@ public class LockPatternView extends RelativeLayout{
     private void doIfStatusPatternCheck(){
         mPassConfirmStr = getSetPass();
         if (mPassConfirmStr.equals(mPassSetStr)){
-            mInterface.patternConfirmedSuccess(false, mPassConfirmStr, "");
+            mInterfaceLPV.patternConfirmed(false, mPassConfirmStr);
         }  else {
-            mInterface.patternConfirmFailed(mPassConfirmStr);
+            mInterfaceLPV.patternFailed();
             patternError();
         }
         mPassConfirmStr = "";
@@ -1185,7 +1194,8 @@ public class LockPatternView extends RelativeLayout{
         public void onClick(View v) {
             if (mPassResetDialog == null){
                 mPassResetDialog = new LPV_Dialog
-                        .Builder(mContext, mLPV, mDisplayDensity, LPV_Dialog.DIALOG_RESTORE_PATTERN)
+                        .Builder(mContext, mLPV, mDisplayDensity, LPV_Dialog.DIALOG_RESTORE_PATTERN,
+                        mInterfaceSPD)
                         .setTitleColor(mDialogTitleColor)
                         .setMessageColor(mDialogMessageColor)
                         .setTextColor(mDialogTextColor)
@@ -1288,7 +1298,7 @@ public class LockPatternView extends RelativeLayout{
         private OnClickListener onCancelPatternListener = new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mInterface.patternSubmitCanceled();
+                mInterfaceLPV.setPatternCanceled();
                 setCurrentLockStatus(mLPV.SET_PATTERN);
                 mStatusTitle.setText(mTitleSetNewPatterStr);
                 setBottomButtonsVisibility(false);
@@ -1305,14 +1315,14 @@ public class LockPatternView extends RelativeLayout{
                     setCurrentLockStatus(CONFIRM_PATTERN);
                     mPassSetStr = mLPV.getSetPass();
                     mPassSetStr = mLPV.getSetPass();
-                    mInterface.patternSet(mPassSetStr);
                     mBtnConfirm.setText(mBtnConfirmStr);
                     mStatusTitle.setText(mTitleConfirmPatternStr);
                 } else if (mCurrentLockStatus == CONFIRM_PATTERN){
                     if (mSecondPassDialogEnable){
                         if (mSecondPassDialog == null){
                             mSecondPassDialog = new LPV_Dialog
-                                    .Builder(mContext, mLPV, mDisplayDensity, LPV_Dialog.DIALOG_SET_SECOND_PASS)
+                                    .Builder(mContext, mLPV, mDisplayDensity,
+                                    LPV_Dialog.DIALOG_SET_SECOND_PASS, mInterfaceSPD)
                                     .setTitleColor(mDialogTitleColor)
                                     .setMessageColor(mDialogMessageColor)
                                     .setTextColor(mDialogTextColor)

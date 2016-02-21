@@ -21,6 +21,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.pro100svitlo.lockpattern.interfaces.SecondPassDialogInterface;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,13 +35,14 @@ public class LPV_Dialog {
 
         private Context mContext;
         private LockPatternView mLPV;
+        private SecondPassDialogInterface mInterfaceSPD;
         private int mMarginLeftRight = 24;
         private int mMarginTopBottom = 16;
         private int mMinAnswerLength;
         private int mMaxAnswerLength;
         private int mTitleColor = R.color.colorPrimary;
         private int mMessageColor = R.color.colorPrimary;
-        private int mTextColor = R.color.textColor;
+        private int mTextColor = R.color.lpv_gray;
         private int mButtonsColor = R.color.colorAccent;
         private int mRadioBtnColor = R.color.colorAccent;
         private int mPrimaryColor = R.color.colorPrimary;
@@ -51,10 +54,12 @@ public class LPV_Dialog {
         private String mPositiveStr;
         private String mNegativeStr;
 
-        public Builder(Context c, LockPatternView lp, float density, int dialogType){
+        public Builder(Context c, LockPatternView lp, float density, int dialogType,
+                       SecondPassDialogInterface interf){
             mContext = c;
             mLPV = lp;
             mDialogType = dialogType;
+            mInterfaceSPD = interf;
 
             getDialogItems(density);
         }
@@ -175,6 +180,7 @@ public class LPV_Dialog {
 
     private Context mContext;
     private LockPatternView mLPV;
+    private SecondPassDialogInterface mInterfaceSPD;
     private RadioGroup mQuestionsGroup;
     private InputMethodManager mInputMethodManager;
     private AlertDialog mDialog;
@@ -214,6 +220,7 @@ public class LPV_Dialog {
     private LPV_Dialog(Builder b){
         mContext = b.mContext;
         mLPV = b.mLPV;
+        mInterfaceSPD = b.mInterfaceSPD;
         mDialogType = b.mDialogType;
 
         mMarginLeftRight = b.mMarginLeftRight;
@@ -431,7 +438,6 @@ public class LPV_Dialog {
         mInputMethodManager.hideSoftInputFromWindow(mAnswer.getWindowToken(), 0);
     }
 
-
     private DialogInterface.OnClickListener onPositiveBtnListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
@@ -440,11 +446,14 @@ public class LPV_Dialog {
                 if (mCurrentAnswerStr.equals(mCorrectAnswerStr)) {
                     mShp.clearSharedPreferences();
                     mLPV.resetPatternSuccessful();
+                    mInterfaceSPD.secondPassResetConfirmed();
                 } else {
                     mLPV.resetPatternFailed();
+                    mInterfaceSPD.secondPassResetFailed();
                 }
             } else if (mDialogType == DIALOG_SET_SECOND_PASS){
                 mLPV.patternSetSuccessful(mCurrentAnswerStr, mQuestionsArray[mSelectedQuestionPosition]);
+                mInterfaceSPD.secondPassCreated(mCurrentAnswerStr);
             }
         }
     };
@@ -462,6 +471,7 @@ public class LPV_Dialog {
         public void onCancel(DialogInterface dialog) {
             if (mDialogType == DIALOG_SET_SECOND_PASS){
                 mLPV.secondPassDismissed();
+                mInterfaceSPD.setSecondPassCanceled();
                 if (mAnswer.getVisibility() == View.VISIBLE){
                     new Handler().postDelayed(new Runnable() {
                         @Override

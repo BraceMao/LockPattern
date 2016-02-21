@@ -26,41 +26,8 @@
     <style name="lpv_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="lpv_logo">@drawable/name_app_main</item>
         <item name="mainIsBgEnable">true</item>
-    </style>
-
-    <style name="forgetPassStyle" parent="Widget.AppCompat.Button">
-        <item name="android:textColor">@color/lpv_green</item>
-        <item name="android:textStyle">italic</item>
-        <item name="android:textSize">20sp</item>
-    </style>
-
-    <style name="buttonStyle" parent="Widget.AppCompat.Button">
-        <item name="android:textColor">@color/lpv_green</item>
-        <item name="android:textStyle">italic</item>
-        <item name="android:textSize">20sp</item>
-    </style>
-    <style name="dialogContainer_ll">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:orientation">vertical</item>
-        <item name="android:layout_marginLeft">24dp</item>
-        <item name="android:layout_marginRight">24dp</item>
-        <item name="android:layout_marginTop">16dp</item>
-    </style>
-
-    <style name="dialogQuestion_tv">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">16dp</item>
-    </style>
-
-    <style name="dialogQuestion_et">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">16dp</item>
-        <item name="android:singleLine">true</item>
+        <item name="lpv_logo">@drawable/logo_example</item>
     </style>
 
 

@@ -7,19 +7,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.pro100svitlo.lockpattern.LPV_Interface;
 import com.pro100svitlo.lockpattern.LockPatternView;
+import com.pro100svitlo.lockpattern.interfaces.LPV_Interface;
+import com.pro100svitlo.lockpattern.interfaces.SecondPassDialogInterface;
 
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment implements LPV_Interface {
-
-    private static LockPatternView mLockPatternView;
-    public static TextView mText;
-    public static TextView mText_2;
+public class MainActivityFragment extends Fragment implements LPV_Interface, SecondPassDialogInterface {
 
     public MainActivityFragment() {
     }
@@ -28,37 +26,28 @@ public class MainActivityFragment extends Fragment implements LPV_Interface {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        mText = (TextView)rootView.findViewById(R.id.text);
-        mText_2 = (TextView)rootView.findViewById(R.id.text_2);
 
-        mLockPatternView = (LockPatternView)rootView.findViewById(R.id.lpv);
+        LockPatternView mLockPatternView = (LockPatternView) rootView.findViewById(R.id.lpv);
 
-        mLockPatternView.initLockPatternView(getActivity(), this);
+        mLockPatternView.initLockPatternView(getActivity(), this, this);
 
         return rootView;
     }
 
+
+    private void showToast(String mess){
+        Toast.makeText(getActivity(), mess, Toast.LENGTH_SHORT).show();
+    }
+
+
     @Override
-    public void patternExist(boolean patternExist) {
-        if (patternExist){
-            showToast("patternExist");
-        } else {
-            showToast("please set pass");
-        }
+    public void isPatternExist(boolean isExist) {
+        showToast(String.valueOf(isExist));
     }
 
     @Override
-    public void patternSet(String pass) {
-        showToast("now Confirm PASS");
-    }
-
-    @Override
-    public void patternConfirmedSuccess(boolean isPassSaving, String mainPass, String secondPass) {
-        if (isPassSaving){
-            showToast("first enter");
-        } else {
-            showToast("regular enter with pattern");
-        }
+    public void patternConfirmed(boolean isFirstEnter, String patternPass) {
+        showToast(String.valueOf(isFirstEnter) + ",\n" + patternPass);
         Intent i = new Intent(getActivity(), ActivityNext.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -67,26 +56,32 @@ public class MainActivityFragment extends Fragment implements LPV_Interface {
     }
 
     @Override
-    public void patternConfirmFailed(String pass) {
-        showToast("Confirm Failed");
+    public void patternFailed() {
+        showToast("patternFailed");
     }
 
     @Override
-    public void patternSubmitCanceled() {
-        showToast("Submit Canceled");
+    public void setPatternCanceled() {
+        showToast("setPatternCanceled");
     }
 
-
-    private void showToast(String mess){
-//        Toast.makeText(getActivity(), mess, Toast.LENGTH_SHORT).show();
+    @Override
+    public void setSecondPassCanceled() {
+        showToast("setSecondPassCanceled");
     }
 
-
-    public static void setText(String text){
-//        mText.setText(text);
+    @Override
+    public void secondPassCreated(String secondPass) {
+        showToast("secondPassCreated");
     }
 
-    public static void setText_2(String text){
-//        mText_2.setText(text);
+    @Override
+    public void secondPassResetConfirmed() {
+        showToast("secondPassResetConfirmed");
+    }
+
+    @Override
+    public void secondPassResetFailed() {
+        showToast("secondPassResetFailed");
     }
 }

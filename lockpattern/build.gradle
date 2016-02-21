@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 23
@@ -8,7 +9,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
-        versionName "0.9.0"
+        versionName "0.9.1"
     }
     buildTypes {
         release {
@@ -16,17 +17,29 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    repositories {
-        jcenter()
-        maven { url "https://jitpack.io" }
-//        maven { url "https://github.com/pro100svitlo/LockPatternt/master" }
-    }
+
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
-    compile 'com.github.pro100svitlo:LockPatternt:0.9.0'
+}
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.3.1'
+        classpath 'com.novoda:bintray-release:0.3.4'
+    }
+}
+
+publish {
+    groupId = 'com.github.pro100svitlo'
+    artifactId = 'lockpattern'
+    publishVersion = '0.9.1'
+    desc = 'This library provides developer with possibility of easy integration of lock pattern protection to his android application. A lot of items are available for customization.'
+    licences = ['MIT']
+    website = 'https://github.com/pro100svitlo/LockPatternt'
 }
