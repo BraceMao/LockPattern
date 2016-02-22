@@ -33,9 +33,9 @@ public class LPV_Dialog {
 
     public static class Builder{
 
-        private Context mContext;
-        private LockPatternView mLPV;
-        private SecondPassDialogInterface mInterfaceSPD;
+        private final Context mContext;
+        private final LockPatternView mLPV;
+        private final SecondPassDialogInterface mInterfaceSPD;
         private int mMarginLeftRight = 24;
         private int mMarginTopBottom = 16;
         private int mMinAnswerLength;
@@ -45,9 +45,7 @@ public class LPV_Dialog {
         private int mTextColor = R.color.lpv_gray;
         private int mButtonsColor = R.color.colorAccent;
         private int mRadioBtnColor = R.color.colorAccent;
-        private int mPrimaryColor = R.color.colorPrimary;
-        private int mAccentColor = R.color.colorAccent;
-        private int mDialogType;
+        private final int mDialogType;
         private String[] mQuestionsArray;
         private String mTitleStr;
         private String mMessageStr;
@@ -154,9 +152,6 @@ public class LPV_Dialog {
             mButtonsColor = ContextCompat.getColor(mContext, mButtonsColor);
             mRadioBtnColor = ContextCompat.getColor(mContext, mRadioBtnColor);
 
-            mPrimaryColor = ContextCompat.getColor(mContext, mPrimaryColor);
-            mAccentColor = ContextCompat.getColor(mContext, mAccentColor);
-
             if (mDialogType == LPV_Dialog.DIALOG_RESTORE_PATTERN){
                 mTitleStr = mContext.getString(R.string.lpv_ad_restorePass_title);
                 mMessageStr = mContext.getString(R.string.lpv_ad_restorePass_message);
@@ -178,9 +173,9 @@ public class LPV_Dialog {
     public static final int DIALOG_SET_SECOND_PASS = 0;
     public static final int DIALOG_RESTORE_PATTERN = 1;
 
-    private Context mContext;
-    private LockPatternView mLPV;
-    private SecondPassDialogInterface mInterfaceSPD;
+    private final Context mContext;
+    private final LockPatternView mLPV;
+    private final SecondPassDialogInterface mInterfaceSPD;
     private RadioGroup mQuestionsGroup;
     private InputMethodManager mInputMethodManager;
     private AlertDialog mDialog;
@@ -189,32 +184,27 @@ public class LPV_Dialog {
     private TextView mQuestion;
     private EditText mAnswer;
     private Button mPositiveButton;
-    private List <RadioButton> mQuestionRBtnsList = new ArrayList<>();
-    private int mAnimationDuration = 0;
-    private int mMarginLeftRight;
-    private int mMarginTopBottom;
-    private int mMinAnswerLength;
-    private int mMaxAnswerLength;
-    private float mTextSize = 16;
-    private String[] mQuestionsArray;
+    private final List <RadioButton> mQuestionRBtnsList = new ArrayList<>();
+    private final int mMarginLeftRight;
+    private final int mMarginTopBottom;
+    private final int mMinAnswerLength;
+    private final int mMaxAnswerLength;
+    private final float mTextSize = 16;
+    private final String[] mQuestionsArray;
     private String mCurrentAnswerStr = "";
     private String mCorrectAnswerStr;
-    private String mTitleStr;
-    private String mMessageStr;
-    private String mQuestionStr;
-    private String mPositiveStr;
-    private String mNegativeStr;
+    private final String mTitleStr;
+    private final String mMessageStr;
+    private final String mPositiveStr;
+    private final String mNegativeStr;
     private int mSelectedQuestionPosition = -1;
-    private int mTitleColor;
-    private int mMessageColor;
+    private final int mTitleColor;
+    private final int mMessageColor;
     private int mTextColor;
-    private int mButtonsColor;
-    private int mRadioBtnColor;
+    private final int mButtonsColor;
+    private final int mRadioBtnColor;
 
-
-    private int mPrimaryColor;
-    private int mAccentColor;
-    private int mDialogType;
+    private final int mDialogType;
     private boolean mIsQuestionChosen;
 
     private LPV_Dialog(Builder b){
@@ -232,8 +222,6 @@ public class LPV_Dialog {
         mButtonsColor = b.mButtonsColor;
         mRadioBtnColor = b.mRadioBtnColor;
 
-        mPrimaryColor = b.mPrimaryColor;
-        mAccentColor = b.mAccentColor;
         mTextColor = b.mTextColor;
         mMaxAnswerLength = b.mMaxAnswerLength;
         mMinAnswerLength = b.mMinAnswerLength;
@@ -275,16 +263,16 @@ public class LPV_Dialog {
         mDialog.hide();
     }
 
-    public void setMaxLengthLimit(int limit){
+    private void setMaxLengthLimit(int limit){
         mAnswer.setFilters(new InputFilter[]{new InputFilter.LengthFilter(limit)});
     }
 
     private void getCorrectAnswer(){
         mShp = new LPV_SharedPreferences(mContext);
         mCorrectAnswerStr = mShp.getSecondSavedPass();
-        mQuestionStr = mShp.getSecondPassQuestion();
+        String question = mShp.getSecondPassQuestion();
 
-        mQuestion.setText(mQuestionStr);
+        mQuestion.setText(question);
     }
 
     private void createDialog(){
@@ -384,7 +372,7 @@ public class LPV_Dialog {
         mAnswer.setTextColor(mTextColor);
         mAnswer.setTextSize(mTextSize);
         mAnswer.setSingleLine(true);
-        mAnswer.getBackground().setColorFilter(mAccentColor, PorterDuff.Mode.SRC_ATOP);
+        mAnswer.getBackground().setColorFilter(mButtonsColor, PorterDuff.Mode.SRC_ATOP);
     }
 
     private void setPassLengthListener(){
@@ -403,7 +391,7 @@ public class LPV_Dialog {
                 checkPositiveBtnEnable();
             }
         });
-    };
+    }
 
     private void checkPositiveBtnEnable(){
         int l = mCurrentAnswerStr.length();
@@ -438,7 +426,7 @@ public class LPV_Dialog {
         mInputMethodManager.hideSoftInputFromWindow(mAnswer.getWindowToken(), 0);
     }
 
-    private DialogInterface.OnClickListener onPositiveBtnListener = new DialogInterface.OnClickListener() {
+    private final DialogInterface.OnClickListener onPositiveBtnListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             mAnswer.getText().clear();
@@ -458,7 +446,7 @@ public class LPV_Dialog {
         }
     };
 
-    private DialogInterface.OnClickListener onNegativeBtnListener = new DialogInterface.OnClickListener(){
+    private final DialogInterface.OnClickListener onNegativeBtnListener = new DialogInterface.OnClickListener(){
 
         @Override
         public void onClick(DialogInterface dialog, int which) {
@@ -466,7 +454,7 @@ public class LPV_Dialog {
         }
     };
 
-    private DialogInterface.OnCancelListener onCancelListener = new DialogInterface.OnCancelListener() {
+    private final DialogInterface.OnCancelListener onCancelListener = new DialogInterface.OnCancelListener() {
         @Override
         public void onCancel(DialogInterface dialog) {
             if (mDialogType == DIALOG_SET_SECOND_PASS){
@@ -485,7 +473,7 @@ public class LPV_Dialog {
         }
     };
 
-    private View.OnClickListener onQuestionItemListener = new View.OnClickListener() {
+    private final View.OnClickListener onQuestionItemListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             int size = mQuestionRBtnsList.size();
@@ -509,7 +497,7 @@ public class LPV_Dialog {
                     public void run() {
                         showSoftKeyboard();
                     }
-                }, mAnimationDuration * 2);
+                }, 200);
             } else {
                 mQuestionsGroup.clearCheck();
                 mAnswer.setVisibility(View.GONE);

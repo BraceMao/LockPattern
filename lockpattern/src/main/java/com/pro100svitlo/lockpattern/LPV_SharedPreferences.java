@@ -9,17 +9,15 @@ import android.preference.PreferenceManager;
  */
 public class LPV_SharedPreferences {
 
-    public static final String LPV_MAIN_PASS_KEY = "LPV_MAIN_PASS_KEY";
-    public static final String LPV_SECOND_PASS_ANSWER = "LPV_SECOND_PASS_ANSWER";
-    public static final String LPV_SECOND_PASS_QUESTION = "LPV_SECOND_PASS_QUESTION";
+    private static final String LPV_MAIN_PASS_KEY = "LPV_MAIN_PASS_KEY";
+    private static final String LPV_SECOND_PASS_ANSWER = "LPV_SECOND_PASS_ANSWER";
+    private static final String LPV_SECOND_PASS_QUESTION = "LPV_SECOND_PASS_QUESTION";
 
-    private Context mContext;
-    private SharedPreferences mShp;
-    private SharedPreferences.Editor mShpEditor;
+    private final SharedPreferences mShp;
+    private final SharedPreferences.Editor mShpEditor;
 
     public LPV_SharedPreferences(Context c){
-        mContext = c;
-        mShp = PreferenceManager.getDefaultSharedPreferences(mContext);
+        mShp = PreferenceManager.getDefaultSharedPreferences(c);
         mShpEditor = mShp.edit();
     }
 

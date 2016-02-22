@@ -40,9 +40,9 @@ import java.util.ArrayList;
  */
 public class LockPatternView extends RelativeLayout{
 
-    public final int SET_PATTERN = 100;
-    public final int CONFIRM_PATTERN = 200;
-    public final int CHECK_PATTERN = 300;
+    private final int SET_PATTERN = 100;
+    private final int CONFIRM_PATTERN = 200;
+    private final int CHECK_PATTERN = 300;
 
     private Context mContext;
     private LPV_Interface mInterfaceLPV;
@@ -71,21 +71,21 @@ public class LockPatternView extends RelativeLayout{
     private Bitmap mDotBitmapTouched;
     private Bitmap mDotBitmapError;
     private ArrayList<ImageView> mAllDots;
-    private ArrayList<ImageView> mDotsTouched = new ArrayList<>();
+    private final ArrayList<ImageView> mDotsTouched = new ArrayList<>();
     private int mDotColorNormal = R.color.lpv_white;
     private int mDotColorTouched = R.color.lpv_green;
     private int mDotColorError = R.color.lpv_red;
     private int mBgColorNormal = R.color.lpv_white;
     private int mBgColorError = R.color.lpv_red;
-    private int mDotAnimationDuration = 100;
+    private final int mDotAnimationDuration = 100;
     private int mDotCountMin = 4;
     private int mDotRadius = 20;
     private int mDotLineWidth = 10;
     private int mBgRadius = 20;
     private int mBgLineWidth = 5;
     private int mDotVibrateDuration = 10;
-    private int mHorizontalDotsCount = 3;
-    private int mVerticalDotsCount = 3;
+    private final int mHorizontalDotsCount = 3;
+    private final int mVerticalDotsCount = 3;
     private float mDotWidth;
     private float mDotHeight;
     private float mDotTouchLock_prevX;
@@ -93,10 +93,11 @@ public class LockPatternView extends RelativeLayout{
     private float mDotTouchLock_currentY;
     private float mDotTouchLock_currentX;
     private boolean mDotVibrateEnable;
+    private boolean mNeedToShowPatternPass;
     private float[] mDotsCoordinatesX;
     private float[] mDotsCoordinatesY;
     private float mDotAnimationScaleMax = 4f;
-    private float mDotAnimationScaleNormal = 1f;
+    private final float mDotAnimationScaleNormal = 1f;
     private int mMainPatternViewSize;
     private int mMatrixSize;
     private int mTouchedDotLast;
@@ -158,12 +159,12 @@ public class LockPatternView extends RelativeLayout{
 
     private LayoutTransition mLayoutTransition;
     private Vibrator mVibrator;
-    private int mTimeOut = 250;
-    private int mButtonsViewId = -111;
-    private int mForgetPassViewId = -222;
-    private int mMainPatternViewId = -333;
-    private int mStatusViewId = -444;
-    private int mLogoViewId = -555;
+    private final int mTimeOut = 250;
+    private final int mButtonsViewId = -111;
+    private final int mForgetPassViewId = -222;
+    private final int mMainPatternViewId = -333;
+    private final int mStatusViewId = -444;
+    private final int mLogoViewId = -555;
     private int mMargin16 = 16;
     private int mErrorVibrateDuration = 200;
     private int mErrorTimeOut = 2000;
@@ -241,6 +242,7 @@ public class LockPatternView extends RelativeLayout{
     }
     private void initDefaultBooleans(){
         mDotVibrateEnable = true;
+        mNeedToShowPatternPass = false;
         mErrorVibrateEnable = true;
         mPatternEditEnable = true;
         mSecretModeEnable = false;
@@ -332,6 +334,7 @@ public class LockPatternView extends RelativeLayout{
             mIsPatternBgEnable = ta.getBoolean(R.styleable.lpv_main_mainIsBgEnable, mIsPatternBgEnable);
             mDotVibrateEnable = ta.getBoolean(R.styleable.lpv_main_dotVibrateEnable, mDotVibrateEnable);
             mErrorVibrateEnable = ta.getBoolean(R.styleable.lpv_main_errorVibrateEnable, mErrorVibrateEnable);
+            mNeedToShowPatternPass = ta.getBoolean(R.styleable.lpv_general_showPatternPassStr, mNeedToShowPatternPass);
         } finally {
             ta.recycle();
         }
@@ -472,7 +475,7 @@ public class LockPatternView extends RelativeLayout{
     }
 
     public void patternSetSuccessful(String secondPass, String question){
-        mInterfaceLPV.patternConfirmed(true, mPassConfirmStr);
+        mInterfaceLPV.patternConfirmed(true, getShowedPass());
 
         savePass(mPassConfirmStr, secondPass, question);
         setCurrentLockStatus(CHECK_PATTERN);
@@ -910,12 +913,22 @@ public class LockPatternView extends RelativeLayout{
     private void doIfStatusPatternCheck(){
         mPassConfirmStr = getSetPass();
         if (mPassConfirmStr.equals(mPassSetStr)){
-            mInterfaceLPV.patternConfirmed(false, mPassConfirmStr);
+            mInterfaceLPV.patternConfirmed(false, getShowedPass());
         }  else {
             mInterfaceLPV.patternFailed();
             patternError();
         }
         mPassConfirmStr = "";
+    }
+
+    private String getShowedPass(){
+        String showedPass;
+        if (mNeedToShowPatternPass){
+            showedPass = mPassConfirmStr;
+        } else {
+            showedPass = "";
+        }
+        return showedPass;
     }
 
     private String getSavedPass(){
@@ -953,7 +966,7 @@ public class LockPatternView extends RelativeLayout{
         private Paint mItemPaint;
         private Bitmap.Config mItemBitmapConfig;
         private int mPatternItemMargin = 16;
-        private int mPatternItemPadding = 30;
+        private final int mPatternItemPadding = 30;
 
         public MainPatternView(Context context) {
             super(context);
@@ -1215,7 +1228,7 @@ public class LockPatternView extends RelativeLayout{
     private class BottomButtonsLayout extends LinearLayout {
 
         private LPV_Dialog mSecondPassDialog;
-        private int mMargin =  16;
+        private final int mMargin =  16;
 
         public BottomButtonsLayout(Context context) {
             super(context);
@@ -1295,7 +1308,7 @@ public class LockPatternView extends RelativeLayout{
             return mBtnConfirm;
         }
 
-        private OnClickListener onCancelPatternListener = new OnClickListener() {
+        private final OnClickListener onCancelPatternListener = new OnClickListener() {
             @Override
             public void onClick(View v) {
                 mInterfaceLPV.setPatternCanceled();
@@ -1308,7 +1321,7 @@ public class LockPatternView extends RelativeLayout{
             }
         };
 
-        private OnClickListener onConfirmPatternListener = new OnClickListener() {
+        private final OnClickListener onConfirmPatternListener = new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mCurrentLockStatus == SET_PATTERN){

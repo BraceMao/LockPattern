@@ -4,6 +4,7 @@
         <attr name="errorTimeOutDur" format="integer"/>
         <attr name="secretModeEnable" format="boolean"/>
         <attr name="secondPassDialogEnable" format="boolean"/>
+        <attr name="showPatternPassStr" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="lpv_btn">
