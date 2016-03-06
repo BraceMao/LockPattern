@@ -429,7 +429,6 @@ public class LPV_Dialog {
     private final DialogInterface.OnClickListener onPositiveBtnListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            mAnswer.getText().clear();
             if (mDialogType == DIALOG_RESTORE_PATTERN){
                 if (mCurrentAnswerStr.equals(mCorrectAnswerStr)) {
                     mShp.clearSharedPreferences();
@@ -443,6 +442,7 @@ public class LPV_Dialog {
                 mLPV.patternSetSuccessful(mCurrentAnswerStr, mQuestionsArray[mSelectedQuestionPosition]);
                 mInterfaceSPD.secondPassCreated(mCurrentAnswerStr);
             }
+            mAnswer.getText().clear();
         }
     };
 

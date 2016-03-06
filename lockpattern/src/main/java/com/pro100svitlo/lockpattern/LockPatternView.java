@@ -267,6 +267,7 @@ public class LockPatternView extends RelativeLayout{
             mErrorTimeOut = lpv.getInteger(R.styleable.lpv_general_errorTimeOutDur, mErrorTimeOut);
             mSecretModeEnable = lpv.getBoolean(R.styleable.lpv_general_secretModeEnable, mSecretModeEnable);
             mSecondPassDialogEnable = lpv.getBoolean(R.styleable.lpv_general_secondPassDialogEnable, mSecondPassDialogEnable);
+            mNeedToShowPatternPass = lpv.getBoolean(R.styleable.lpv_general_showPatternPassStr, mNeedToShowPatternPass);
         } finally {
             lpv.recycle();
         }
@@ -315,6 +316,8 @@ public class LockPatternView extends RelativeLayout{
             int minDotsCount = ta.getInteger(R.styleable.lpv_main_dotMinCount, mDotCountMin);
             if (minDotsCount > mDotCountMin){
                 mDotCountMin = minDotsCount;
+            } else if (minDotsCount > 9){
+                mDotCountMin = 9;
             }
             mDotVibrateDuration = ta.getInteger(R.styleable.lpv_main_dotVibrateDur, mDotVibrateDuration);
             mErrorVibrateDuration = ta.getInteger(R.styleable.lpv_main_errorVibrateDur, mErrorVibrateDuration);
@@ -334,7 +337,6 @@ public class LockPatternView extends RelativeLayout{
             mIsPatternBgEnable = ta.getBoolean(R.styleable.lpv_main_mainIsBgEnable, mIsPatternBgEnable);
             mDotVibrateEnable = ta.getBoolean(R.styleable.lpv_main_dotVibrateEnable, mDotVibrateEnable);
             mErrorVibrateEnable = ta.getBoolean(R.styleable.lpv_main_errorVibrateEnable, mErrorVibrateEnable);
-            mNeedToShowPatternPass = ta.getBoolean(R.styleable.lpv_general_showPatternPassStr, mNeedToShowPatternPass);
         } finally {
             ta.recycle();
         }

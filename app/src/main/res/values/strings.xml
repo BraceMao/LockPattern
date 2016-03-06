@@ -1,4 +1,4 @@
-<resources >
+<resources xmlns:xliff="http://schemas.android.com/tools">
     <string name="app_name">LockPattern</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_activity_next">ActivityNext</string>
