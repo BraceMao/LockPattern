@@ -33,5 +33,5 @@ Inside your activity or fragment:
     LockPatternView lockPatternView = (LockPatternView) findViewById(R.id.lpv);
     lockPatternView.initLockPatternView(getActivity(), this, this);
 ```
-thats preatty mutch all what you need for start work!
+thats preaty mutch all what you need for start work!
 
