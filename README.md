@@ -119,6 +119,10 @@ thats preaty mutch all what you need for start work!
     }
 ```
 ### Castomization in style
-| flag        | meaning           | default value  |
-| ------------- |:-------------:| :-----|
-| col 3 is      | right-aligned | $1600 |
+##### General
+| flag                   | default value    | meaning   |
+| -----------------------|------------------|: ---------|
+| errorTimeOutDur        | 2000             | ololo     |
+| secretModeEnable       | false            | ololo     |
+| secondPassDialogEnable | true             | ololo     |
+| showPassStr            | false            | ololo     |
