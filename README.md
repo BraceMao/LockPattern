@@ -5,14 +5,14 @@ This library provides developer with possibility of easy integration of lock pat
 <!--![alt text](screenshots/111222.gif "Description goes here")-->
 
 # Usage
-Add the dependencies to your gradle file:
+##### Add the dependencies to your gradle file:
 ```
     dependencies {
         compile 'com.github.pro100svitlo:lockpattern:0.9.2'
     }
 ```
 
-Also you need few line in your manifest file:
+##### Also you need few line in your manifest file:
 ```
   <uses-permission android:name="android.permission.VIBRATE" />
   <application
@@ -21,7 +21,7 @@ Also you need few line in your manifest file:
         ...
         >
 ```
-In your layout xml you need add next code:
+##### In your layout xml you need add next code:
 
 **Note: your activity must be without toolbar or etc! Just LockPatternView as main and single layout!**
 ```
@@ -31,19 +31,25 @@ In your layout xml you need add next code:
         android:layout_height="match_parent"
         />
 ```
-Inside your activity or fragment:
+##### Inside your activity or fragment:
 ```sh
     LockPatternView lockPatternView = (LockPatternView) findViewById(R.id.lpv);
     lockPatternView.initLockPatternView(getActivity(), this, this);
 ```
 thats preaty mutch all what you need for start work!
 
-Inside your activity/fragment you have next callbacks for managing LockPatternView:
+---
+
+### Inside your activity/fragment you have next callbacks for managing LockPatternView:
  
  **LPV_Interface**
+ (This is tha main callback of LockPatternView)
+ 
 ```
     @Override
     public void isPatternExist(boolean isExist) {
+        //this will called with every activity/fragment start
+        
         if (isExist){
             //do some staff here if need it...
         } else{
@@ -53,14 +59,77 @@ Inside your activity/fragment you have next callbacks for managing LockPatternVi
     
     @Override
     public void patternConfirmed(boolean isFirstEnter, String patternPass) {
+        //this will called when user successfully create new pattern
+        //or when successfully entered with existed pattern
+        
+        //here you can make some intent into inner activity of your app...
+        
         if (isFirstEnter){
             //do some staff here if need it...
             //it mean that user just setup pattern and enter first time
         }
         
+        //patternPass - by default retirn null
+        //if you need to know which password user create, than add style flag "showPatternPassStr = true"
+    }
+    
+    @Override
+    public void patternFailed() {
+        //do some staff here if need it...
+        
+        //it will be called if set password and confirm password didnn't match
+        //or saved password and current entered password didn't match
+    }
+    
+    @Override
+    public void setPatternCanceled() {
+         //do some staff here if need it...
+         
+         //it will called if user cancel setting new pattern
+    }
+```
+
+ **SecondPassDialogInterface**
+```
+    @Override
+    public void isPatternExist(boolean isExist) {
+        //this will called with every activity/fragment start
+        
+        if (isExist){
+            //do some staff here if need it...
+        } else{
+            //do some other staff here if need it...
+        }
+    }
+    
+    @Override
+    public void patternConfirmed(boolean isFirstEnter, String patternPass) {
+        //this will called when user successfully create new pattern
+        //or when successfully entered with existed pattern
+        
         //here you can make some intent into inner activity of your app...
+        
+        if (isFirstEnter){
+            //do some staff here if need it...
+            //it mean that user just setup pattern and enter first time
+        }
         
         //patternPass - by default retirn null
         //if you need to know which password user create, than add style flag "showPatternPassStr = true"
+    }
+    
+    @Override
+    public void patternFailed() {
+        //do some staff here if need it...
+        
+        //it will be called if set password and confirm password didnn't match
+        //or saved password and current entered password didn't match
+    }
+    
+    @Override
+    public void setPatternCanceled() {
+         //do some staff here if need it...
+         
+         //it will called if user cancel setting new pattern
     }
 ```
