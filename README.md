@@ -37,3 +37,28 @@ Inside your activity or fragment:
 ```
 thats preaty mutch all what you need for start work!
 
+Inside your activity/fragment you have next callbacks for managing LockPatternView:
+```sh
+    **LPV_Interface**
+    @Override
+    public void isPatternExist(boolean isExist) {
+        if (isExist){
+            //do some staff here if need it...
+        } else{
+            //do some other staff here if need it...
+        }
+    }
+    
+    @Override
+    public void patternConfirmed(boolean isFirstEnter, String patternPass) {
+        if (isFirstEnter){
+            //do some staff here if need it...
+            //it mean that user just setup pattern and enter first time
+        }
+        
+        //here you can make some intent into inner activity of your app...
+        
+        //patternPass - by default retirn null
+        //if you need to know which password user create, than add style flag "showPatternPassStr = true"
+    }
+```
