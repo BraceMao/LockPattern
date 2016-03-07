@@ -121,7 +121,7 @@ thats preaty mutch all what you need for start work!
 ### Castomization in style
 ##### General
 flag                   | default value    | meaning   
-:---:|:---:|:---:
+---|:---:|:---
 | errorTimeOutDur        | 2000             | ololo     |
 | secretModeEnable       | false            | ololo     |
 | secondPassDialogEnable | true             | ololo     |
