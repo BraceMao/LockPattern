@@ -13,7 +13,7 @@ Add the dependencies to your gradle file:
 ```
 
 Also you need few line in your manifest file:
-```sh
+```
   <uses-permission android:name="android.permission.VIBRATE" />
   <application
         ...
@@ -24,7 +24,7 @@ Also you need few line in your manifest file:
 In your layout xml you need add next code:
 
 **Note: your activity must be without toolbar or etc! Just LockPatternView as main and single layout!**
-```sh
+```
   <com.pro100svitlo.lockpattern.LockPatternView
         android:id="@+id/lpv"
         android:layout_width="match_parent"
@@ -39,8 +39,9 @@ Inside your activity or fragment:
 thats preaty mutch all what you need for start work!
 
 Inside your activity/fragment you have next callbacks for managing LockPatternView:
-```sh
-    **LPV_Interface**
+ 
+ **LPV_Interface**
+```
     @Override
     public void isPatternExist(boolean isExist) {
         if (isExist){
