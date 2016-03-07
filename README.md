@@ -28,4 +28,10 @@ In your layout xml you need add next code:
         android:layout_height="match_parent"
         />
 ```
+Inside your activity or fragment:
+```sh
+    LockPatternView lockPatternView = (LockPatternView) findViewById(R.id.lpv);
+    lockPatternView.initLockPatternView(getActivity(), this, this);
+```
+thats preatty mutch all what you need for start work!
 
