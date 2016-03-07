@@ -118,3 +118,7 @@ thats preaty mutch all what you need for start work!
         //it will be called in case user give uncorrect answer for secret qustion
     }
 ```
+### Castomization in style
+| flag        | meaning           | default value  |
+| ------------- |:-------------:| -----:|
+| col 3 is      | right-aligned | $1600 |
