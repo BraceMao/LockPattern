@@ -15,7 +15,9 @@ Also you need few line in your manifest file:
 ```sh
   <uses-permission android:name="android.permission.VIBRATE" />
   <application
+        ...
         tools:replace="label"
+        ...
         >
 ```
 In your layout xml you need add next code:
