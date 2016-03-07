@@ -40,7 +40,7 @@ thats preaty mutch all what you need for start work!
 
 ---
 
-### Inside your activity/fragment you have next callbacks for managing LockPatternView:
+### Callbacks:
  
  **LPV_Interface**
  (This is tha main callback of LockPatternView)
@@ -90,46 +90,27 @@ thats preaty mutch all what you need for start work!
 ```
 
  **SecondPassDialogInterface**
+ (This is optional callback - needed by default. It provide managing setting second password in case user will forgot his pattern and for future pattern recovery. For switch off secon password and password recovery dialogs add *secondPassDialogEnable = false* to your style)
 ```
     @Override
-    public void isPatternExist(boolean isExist) {
-        //this will called with every activity/fragment start
-        
-        if (isExist){
-            //do some staff here if need it...
-        } else{
-            //do some other staff here if need it...
-        }
+    public void setSecondPassCanceled() {
+        //it will be called in case user dismiss second password dialog
+        //after this user will be needed to setup pattern from the first step
     }
-    
+
     @Override
-    public void patternConfirmed(boolean isFirstEnter, String patternPass) {
-        //this will called when user successfully create new pattern
-        //or when successfully entered with existed pattern
-        
-        //here you can make some intent into inner activity of your app...
-        
-        if (isFirstEnter){
-            //do some staff here if need it...
-            //it mean that user just setup pattern and enter first time
-        }
-        
-        //patternPass - by default retirn null
-        //if you need to know which password user create, than add style flag "showPatternPassStr = true"
+    public void secondPassCreated(String secondPass) {
+        //it will be called in case user succesfully create second password for recovery
+        //after this user will be needed to setup pattern from the first step
     }
-    
+
     @Override
-    public void patternFailed() {
-        //do some staff here if need it...
-        
-        //it will be called if set password and confirm password didnn't match
-        //or saved password and current entered password didn't match
+    public void secondPassResetConfirmed() {
+        showToast("secondPassResetConfirmed");
     }
-    
+
     @Override
-    public void setPatternCanceled() {
-         //do some staff here if need it...
-         
-         //it will called if user cancel setting new pattern
+    public void secondPassResetFailed() {
+        showToast("secondPassResetFailed");
     }
 ```
