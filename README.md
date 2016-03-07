@@ -19,6 +19,7 @@ Also you need few line in your manifest file:
         >
 ```
 In your layout xml you need add next code:
+
 **Note: your activity must be without toolbar or etc! Just LockPatternView as main and single layout!**
 ```sh
   <com.pro100svitlo.lockpattern.LockPatternView
