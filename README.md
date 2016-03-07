@@ -2,6 +2,8 @@
 
 This library provides developer with possibility of easy integration of lock pattern protection to his android application. A lot of items are available for customization.
 
+![alt text](screenshots/111222.gif "Description goes here")
+
 # Usage
 Add the dependencies to your gradle file:
 
@@ -19,6 +21,3 @@ Also you need to add next (bold and italic) line to your aplication into manifes
         android:label="@string/gen_app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">```
-
-
-![alt text](screenshots/111222.gif "Description goes here")
