@@ -21,4 +21,4 @@ Also you need to add next (bold and italic) line to your aplication into manifes
         android:theme="@style/AppTheme">```
 
 
-![Alt text](https://github.com/pro100svitlo/LockPattern/blob/master/screenshots/111222.gif?raw=true "Optional Title")
+![alt text](screenshots/111222.gif "Description goes here")
