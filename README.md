@@ -19,3 +19,6 @@ Also you need to add next (bold and italic) line to your aplication into manifes
         android:label="@string/gen_app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">```
+
+
+![alt tag](https://github.com/pro100svitlo/LockPattern/blob/master/screenshots/111222.gif)
