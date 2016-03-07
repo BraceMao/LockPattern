@@ -70,7 +70,7 @@ thats preaty mutch all what you need for start work!
         }
         
         //patternPass - by default retirn null
-        //if you need to know which password user create, than add style flag "showPatternPassStr = true"
+        //if you need to know which password user create, than add style flag "showPassStr = true"
     }
     
     @Override
@@ -102,15 +102,19 @@ thats preaty mutch all what you need for start work!
     public void secondPassCreated(String secondPass) {
         //it will be called in case user succesfully create second password for recovery
         //after this user will be needed to setup pattern from the first step
+        
+         //secondPass - by default retirn null
+        //if you need to know which answer user give for secret question, than add style flag "showPassStr = true"
     }
 
     @Override
     public void secondPassResetConfirmed() {
-        showToast("secondPassResetConfirmed");
+        //it will be called in case user give correct answer for secret qustion
+        //after this will open first step of creation of new pattern and new secret question dialog
     }
 
     @Override
     public void secondPassResetFailed() {
-        showToast("secondPassResetFailed");
+        //it will be called in case user give uncorrect answer for secret qustion
     }
 ```
