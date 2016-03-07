@@ -6,11 +6,15 @@ This library provides developer with possibility of easy integration of lock pat
 
 # Usage
 Add the dependencies to your gradle file:
-```sh
-    dependencies {
-        compile 'com.github.pro100svitlo:lockpattern:0.9.2'
-    }
-```
+<!--```sh-->
+    <!--dependencies {-->
+        <!--compile 'com.github.pro100svitlo:lockpattern:0.9.2'-->
+    <!--}-->
+<!--```-->
+> dependencies {
+>        compile 'com.github.pro100svitlo:lockpattern:0.9.2'
+>    }
+
 Also you need few line in your manifest file:
 ```sh
   <uses-permission android:name="android.permission.VIBRATE" />
