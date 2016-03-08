@@ -2,7 +2,7 @@
 
 1. [General][#general-style]
 2. [Main View][#main-view]
-3. [Main View][#main-view]
+3. [Buttons](#buttons-style)
 
 ### General
 ```
