@@ -1,5 +1,17 @@
 # Castomization in style
 
+1. [General][#general-style]
+2. [Main View][#main-view]
+3. [Main View][#main-view]
+
+### General
+```
+<item name="errorTimeOutDur">2000</item> //time in milis
+<item name="secretModeEnable">false</item>
+<item name="secondPassDialogEnable">true</item>
+<item name="showPassStr">true</item>
+```
+
 ### Main View
 ```
 <item name="dotAnimScaleMax">4f</item>
@@ -21,13 +33,6 @@
 <item name="errorVibrateEnable">true</item>
 ```
 
-### General Style
-```
-<item name="errorTimeOutDur">2000</item> //time in milis
-<item name="secretModeEnable">false</item>
-<item name="secondPassDialogEnable">true</item>
-<item name="showPassStr">true</item>
-```
 ### Buttons Style
 ```
 <item name="btnTextColor">#464646</item> 
@@ -53,6 +58,7 @@
 <item name="statusConfirmPatternStr">Confirm pattern</item>
 <item name="statusErrorPatternStr">Wrong Pattern</item>
 ```
+
 ### Dialog Style
 ###### GeneralDialogStyle
 ```
@@ -63,7 +69,7 @@
 <item name="dialogMinAnswerLength">4</item>
 <item name="dialogMaxAnswerLength">20</item>
 ```
-### SecondPasswordDialogStyle
+###### SecondPasswordDialogStyle
 ```
 <item name="dialogRadioBtnColor"></item> //by default your accentColor
 <item name="dialogSecondPassTitleStr">Second Password</item>
@@ -72,8 +78,7 @@
 <item name="dialogSecondPassNegativeStr">Dismiss</item>
 <item name="dialogQuestionsArray">@array/your_questions_array</item>
 ```
-
-### PasswordRestoreDialogStyle
+###### PasswordRestoreDialogStyle
 ```
 <item name="dialogPassRestoreTitleStr">Forgot patter?</item>
 <item name="dialogPassRestoreMessageStr">For patter reset please, answer next question:</item>
