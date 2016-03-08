@@ -1,5 +1,8 @@
 # LockPattern
 
+[I'm a reference-style link][1]
+
+
 This library provides developer with possibility of easy integration of lock pattern protection to his android application. A lot of items are available for customization.
 
 <!--![alt text](screenshots/111222.gif "Description goes here")-->
@@ -42,7 +45,7 @@ thats preaty mutch all what you need for start work!
 
 ### Callbacks:
  
- **LPV_Interface**
+ [1]**LPV_Interface**
  (This is tha main callback of LockPatternView)
  
 ```
