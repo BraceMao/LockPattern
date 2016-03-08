@@ -27,7 +27,7 @@ This library provides developer with possibility of easy integration of lock pat
 ```
 ##### In your layout xml you need add next code:
 
-**Note: your activity must be without toolbar or etc! Just LockPatternView as main and single layout!**
+**_Note: your activity must be without toolbar or etc! Just LockPatternView as main and single layout!_**
 ```
   <com.pro100svitlo.lockpattern.LockPatternView
         android:id="@+id/lpv"
