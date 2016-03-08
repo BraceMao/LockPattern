@@ -2,7 +2,7 @@
 
 This library provides developer with possibility to easily integrate lock pattern protection into his android application. A lot of items are available for customization.
 
-<!--![alt text](screenshots/111222.gif "Description goes here")-->
+![alt text](screenshots/111222.gif "Description goes here")
 
 1. [Usage](#usage)
 2. [Callbacks](#callbacks)
