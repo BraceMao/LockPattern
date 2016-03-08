@@ -135,13 +135,31 @@ thats preaty mutch all what you need for start work!
 <item name="btnRepeatStr">Repeat</item>
 ```
 
-##### Buttons
+##### Forgot password
 ```
-<item name="btnTextColor">#464646</item> 
-<item name="btnBgResource">@drawable/some_btn_bg</item>
-<item name="btnCancelStr">Cancel</item>
-<item name="btnConfirmStr">Confirm</item>
-<item name="btnRepeatStr">Repeat</item>
+<item name="forgotPassColor">#f2f2f0</item>
+<item name="forgotPassTitleStr">Forgot patter?</item>
+<item name="forgotPassFailedStr">Wrong answer!\nPatter recovery denied!</item>
+<item name="forgotPassSuccessStr">Answer is correct!\nPlease set new pattern.</item>
+```
+
+##### Main View
+```
+<item name="dotAnimScaleMax">4f</item>
+<item name="dotRadius">20</item>
+<item name="dotLineWidth">10</item>
+<item name="mBgRadius">10</item>
+<item name="mainBgLineWidth">5</item>
+<item name="dotMinCount">4</item>
+<item name="dotVibrateDur">10</item>
+<item name="errorVibrateDur">200</item>
+<item name="toShortPatternStr">Pattern must contain at least <xliff:g id="count">%s</xliff:g> dots!</item>
+
+<item name="dotNormalColor">#f2f2f0</item>
+<item name="dotTouchedColor">#f2f2f0</item>
+<item name="dotErrorColor">#f2f2f0</item>
+<item name="mainBgNormalColor">#f2f2f0</item>
+<item name="mainBgErrorColor">#f2f2f0</item>
 ```
 flag                   | default value    | meaning   
 ---|:---:|:---
