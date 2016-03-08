@@ -182,12 +182,24 @@ thats preaty mutch all what you need for start work!
 <item name="dialogMinAnswerLength">4</item>
 <item name="dialogMaxAnswerLength">20</item>
 ```
-###### GeneralDialogStyle
+###### SecondPasswordDialogStyle
 ```
-<item name="dialogTitleColor"></item> //by default your primaryColor
-<item name="dialogMessageColor">#f2f2f0</item> //by default your primaryColor
-<item name="dialogTextColor">#464646</item>
-<item name="dialogButtonsColor"></item> //by default your accentColor
-<item name="dialogMinAnswerLength">4</item>
-<item name="dialogMaxAnswerLength">20</item>
+<item name="dialogRadioBtnColor"></item> //by default your accentColor
+<item name="dialogSecondPassTitleStr">Second Password</item>
+<item name="dialogSecondPassMessageStr">This password you will use in case current pattern recovery.</item>
+<item name="dialogSecondPassPositiveStr">Confirm</item>
+<item name="dialogSecondPassNegativeStr">Dismiss</item>
+<item name="dialogQuestionsArray">@array/your_questions_array</item>
+```
+
+###### PasswordRestoreDialogStyle
+```
+<item name="dialogPassRestoreTitleStr">Forgot patter?</item>
+<item name="dialogPassRestoreMessageStr">For patter reset please, answer next question:</item>
+<item name="dialogPassRestorePositiveStr">Confirm</item>
+<item name="dialogPassRestoreNegativeStr">Dismiss</item>
+```
+##### Logo Style
+```
+<item name="lpv_logo">@mipmap/your_logo</item>
 ```
