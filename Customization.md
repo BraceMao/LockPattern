@@ -5,9 +5,9 @@
 3. [Buttons](#buttons-style)
 4. [Forgot Password](#forgot-password-style)
 5. [Dialogs](#dialog-style)
-..1. [General dialog style](#generaldialogstyle)
-..2. [Second Password Dialog](#secondpassworddialogstyle)
-..3. [Password Restore Dialog](#passwordrestoredialogstyle)
+⋅⋅1. [General dialog style](#generaldialogstyle)
+⋅⋅2. [Second Password Dialog](#secondpassworddialogstyle)
+⋅⋅3. [Password Restore Dialog](#passwordrestoredialogstyle)
 6. [Logo](#logo-style)
 
 ### General
