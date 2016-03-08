@@ -4,8 +4,8 @@ This library provides developer with possibility of easy integration of lock pat
 
 <!--![alt text](screenshots/111222.gif "Description goes here")-->
 
-1. Usage
-2. Callbaks
+1. [Usage](#usage)
+2. [Callbaks](#callbacks)
 3. [Customization](Customization.md)
 
 # Usage
@@ -46,8 +46,8 @@ thats preaty mutch all what you need for start work!
 
 ### Callbacks:
  
- [1]**LPV_Interface**
- (This is tha main callback of LockPatternView)
+ ###### Main LPV Interface
+ (This is tha main callback for managing LockPatternView)
  
 ```
     @Override
@@ -93,7 +93,7 @@ thats preaty mutch all what you need for start work!
     }
 ```
 
- **SecondPassDialogInterface**
+ ###### Dialog Interface
  (This is optional callback - needed by default. It provide managing setting second password in case user will forgot his pattern and for future pattern recovery. For switch off secon password and password recovery dialogs add *secondPassDialogEnable = false* to your style)
 ```
     @Override
