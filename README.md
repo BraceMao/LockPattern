@@ -119,14 +119,14 @@ thats preaty mutch all what you need for start work!
     }
 ```
 ### Castomization in style
-##### General
+##### General Style
 ```
 <item name="errorTimeOutDur">2000</item> //time in milis
 <item name="secretModeEnable">false</item>
 <item name="secondPassDialogEnable">true</item>
 <item name="showPassStr">true</item>
 ```
-##### Buttons
+##### Buttons Style
 ```
 <item name="btnTextColor">#464646</item> 
 <item name="btnBgResource">@drawable/some_btn_bg</item>
@@ -135,8 +135,8 @@ thats preaty mutch all what you need for start work!
 <item name="btnRepeatStr">Repeat</item>
 ```
 
-##### Forgot password
-```
+##### Forgot Password Style
+``` 
 <item name="forgotPassColor">#f2f2f0</item>
 <item name="forgotPassTitleStr">Forgot patter?</item>
 <item name="forgotPassFailedStr">Wrong answer!\nPatter recovery denied!</item>
@@ -162,4 +162,32 @@ thats preaty mutch all what you need for start work!
 <item name="mainIsBgEnable">false</item>
 <item name="dotVibrateEnable">true</item>
 <item name="errorVibrateEnable">true</item>
+```
+
+##### Status Text Style
+```
+<item name="statusNormalColor">#f2f2f0</item>
+<item name="statusErrorColor">#f2f2f0</item>
+<item name="statusSetNewPatternStr">Set new pattern</item>
+<item name="statusConfirmPatternStr">Confirm pattern</item>
+<item name="statusErrorPatternStr">Wrong Pattern</item>
+```
+##### Dialog Style
+###### GeneralDialogStyle
+```
+<item name="dialogTitleColor"></item> //by default your primaryColor
+<item name="dialogMessageColor">#f2f2f0</item> //by default your primaryColor
+<item name="dialogTextColor">#464646</item>
+<item name="dialogButtonsColor"></item> //by default your accentColor
+<item name="dialogMinAnswerLength">4</item>
+<item name="dialogMaxAnswerLength">20</item>
+```
+###### GeneralDialogStyle
+```
+<item name="dialogTitleColor"></item> //by default your primaryColor
+<item name="dialogMessageColor">#f2f2f0</item> //by default your primaryColor
+<item name="dialogTextColor">#464646</item>
+<item name="dialogButtonsColor"></item> //by default your accentColor
+<item name="dialogMinAnswerLength">4</item>
+<item name="dialogMaxAnswerLength">20</item>
 ```
