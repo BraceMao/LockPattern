@@ -6,8 +6,8 @@ This library provides developer with possibility of easy integration of lock pat
 
 1. [Usage](#usage)
 2. [Callbaks](#callbacks)
-    2.1. [Main Interface](#main-lpv-interface)
-    2.2. [Dialog Interface](#dialog-interface)
+    1. [Main Interface](#main-lpv-interface)
+    2. [Dialog Interface](#dialog-interface)
 3. [Customization](Customization.md)
 
 # Usage
