@@ -120,6 +120,29 @@ thats preaty mutch all what you need for start work!
 ```
 ### Castomization in style
 ##### General
+```
+<item name="errorTimeOutDur">2000</item> //time in milis
+<item name="secretModeEnable">false</item>
+<item name="secondPassDialogEnable">true</item>
+<item name="showPassStr">true</item>
+```
+##### Buttons
+```
+<item name="btnTextColor">#464646</item> 
+<item name="btnBgResource">@drawable/some_btn_bg</item>
+<item name="btnCancelStr">Cancel</item>
+<item name="btnConfirmStr">Confirm</item>
+<item name="btnRepeatStr">Repeat</item>
+```
+
+##### Buttons
+```
+<item name="btnTextColor">#464646</item> 
+<item name="btnBgResource">@drawable/some_btn_bg</item>
+<item name="btnCancelStr">Cancel</item>
+<item name="btnConfirmStr">Confirm</item>
+<item name="btnRepeatStr">Repeat</item>
+```
 flag                   | default value    | meaning   
 ---|:---:|:---
 | errorTimeOutDur        | 2000             | ololo     |
