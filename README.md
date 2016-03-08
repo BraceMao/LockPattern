@@ -156,14 +156,10 @@ thats preaty mutch all what you need for start work!
 <item name="toShortPatternStr">Pattern must contain at least <xliff:g id="count">%s</xliff:g> dots!</item>
 
 <item name="dotNormalColor">#f2f2f0</item>
-<item name="dotTouchedColor">#f2f2f0</item>
-<item name="dotErrorColor">#f2f2f0</item>
-<item name="mainBgNormalColor">#f2f2f0</item>
-<item name="mainBgErrorColor">#f2f2f0</item>
+<item name="dotTouchedColor">#FF157B0B</item>
+<item name="dotErrorColor">#ca3232</item>
+
+<item name="mainIsBgEnable">false</item>
+<item name="dotVibrateEnable">true</item>
+<item name="errorVibrateEnable">true</item>
 ```
-flag                   | default value    | meaning   
----|:---:|:---
-| errorTimeOutDur        | 2000             | ololo     |
-| secretModeEnable       | false            | ololo     |
-| secondPassDialogEnable | true             | ololo     |
-| showPassStr            | false            | ololo     |
