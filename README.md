@@ -9,6 +9,7 @@ This library provides developer with possibility of easy integration of lock pat
     1. [Main Interface](#main-lpv-interface)
     2. [Dialog Interface](#dialog-interface)
 3. [Customization](Customization.md)
+4. [Password Managing]()
 
 # Usage
 ##### Add the dependencies to your gradle file:
@@ -123,4 +124,18 @@ thats preaty mutch all what you need for start work!
     public void secondPassResetFailed() {
         //it will be called in case user give uncorrect answer for secret qustion
     }
+```
+
+### Password Managing:
+    Manually clean user passwords:
+```
+    SharedPreferencesLPV shp = new SharedPreferencesLPV(context);
+    shp.clearSharedPreferences();
+```
+    Manually get user passwords:
+```
+    SharedPreferencesLPV shp = new SharedPreferencesLPV(context);
+    shp.getMainSavedPass();
+    shp.getSecondPassQuestion();
+    shp.getSecondSavedPass();
 ```
