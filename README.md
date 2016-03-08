@@ -127,14 +127,11 @@ thats preaty mutch all what you need for start work!
 ```
 
 ### Password Managing:
-    Manually clean user passwords:
+Manually clean/get user passwords:
+    
 ```
     SharedPreferencesLPV shp = new SharedPreferencesLPV(context);
     shp.clearSharedPreferences();
-```
-    Manually get user passwords:
-```
-    SharedPreferencesLPV shp = new SharedPreferencesLPV(context);
     shp.getMainSavedPass();
     shp.getSecondPassQuestion();
     shp.getSecondSavedPass();
