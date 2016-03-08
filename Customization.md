@@ -80,7 +80,7 @@
 <item name="dialogPassRestorePositiveStr">Confirm</item>
 <item name="dialogPassRestoreNegativeStr">Dismiss</item>
 ```
-##### Logo Style
+### Logo Style
 ```
 <item name="lpv_logo">@mipmap/your_logo</item>
 ```
