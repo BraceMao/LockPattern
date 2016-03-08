@@ -42,6 +42,8 @@ This library provides developer with possibility of easy integration of lock pat
 ```sh
     LockPatternView lockPatternView = (LockPatternView) findViewById(R.id.lpv);
     lockPatternView.initLockPatternView(getActivity(), this, this);
+    //second argument - main interface calback
+    //second argument - dialogs interface calback
 ```
 thats preaty mutch all what you need for start work!
 
