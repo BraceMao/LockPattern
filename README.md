@@ -9,7 +9,7 @@ This library provides developer with possibility of easy integration of lock pat
     1. [Main Interface](#main-lpv-interface)
     2. [Dialog Interface](#dialog-interface)
 3. [Customization](Customization.md)
-4. [Password Managing]()
+4. [Password Managing](#password-managing)
 
 # Usage
 ##### Add the dependencies to your gradle file:
