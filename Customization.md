@@ -9,7 +9,6 @@
   2. [Second Password Dialog](#secondpassworddialogstyle)
   3. [Password Restore Dialog](#passwordrestoredialogstyle)
 6. [Logo](#logo-style)
-7.  Another item
 
 ### General
 ```
