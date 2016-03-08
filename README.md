@@ -46,7 +46,7 @@ thats preaty mutch all what you need for start work!
 
 ### Callbacks:
  
- ###### Main LPV Interface
+###### Main LPV Interface
  (This is tha main callback for managing LockPatternView)
  
 ```
@@ -93,7 +93,7 @@ thats preaty mutch all what you need for start work!
     }
 ```
 
- ###### Dialog Interface
+###### Dialog Interface
  (This is optional callback - needed by default. It provide managing setting second password in case user will forgot his pattern and for future pattern recovery. For switch off secon password and password recovery dialogs add *secondPassDialogEnable = false* to your style)
 ```
     @Override
