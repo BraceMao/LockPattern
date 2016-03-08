@@ -6,7 +6,7 @@ This library provides developer with possibility of easy integration of lock pat
 
 1. Usage
 2. Callbaks
-3. [Customization][/.Customization.md]
+3. [Customization](Customization.md)
 
 # Usage
 ##### Add the dependencies to your gradle file:
