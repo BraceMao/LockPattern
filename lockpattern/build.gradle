@@ -9,7 +9,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
-        versionName "0.9.2"
+        versionName "0.9.3"
     }
     buildTypes {
         release {
@@ -38,7 +38,7 @@ buildscript {
 publish {
     groupId = 'com.github.pro100svitlo'
     artifactId = 'lockpattern'
-    publishVersion = '0.9.2'
+    publishVersion = '0.9.3'
     desc = 'This library provides developer with possibility of easy integration of lock pattern protection to his android application. A lot of items are available for customization.'
     licences = ['MIT']
     website = 'https://github.com/pro100svitlo/LockPatternt'
