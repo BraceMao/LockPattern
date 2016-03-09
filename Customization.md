@@ -21,10 +21,10 @@
 ### Main View
 ```
 <item name="dotAnimScaleMax">4f</item>
-<item name="dotRadius">20</item>
-<item name="dotLineWidth">10</item>
-<item name="mBgRadius">10</item>
-<item name="mainBgLineWidth">5</item>
+<item name="dotRadius">5dp</item>
+<item name="dotLineWidth">5dp</item>
+<item name="mBgRadius">10dp</item>
+<item name="mainBgLineWidth">5dp</item>
 <item name="dotMinCount">4</item>
 <item name="dotVibrateDur">10</item>
 <item name="errorVibrateDur">200</item>
