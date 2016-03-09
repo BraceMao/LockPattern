@@ -16,7 +16,7 @@ This library provides developer with possibility to easily integrate lock patter
 ##### Add the dependencies to your gradle file:
 ```
     dependencies {
-        compile 'com.github.pro100svitlo:lockpattern:0.9.2'
+        compile 'com.github.pro100svitlo:lockpattern:0.9.3'
     }
 ```
 
