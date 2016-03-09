@@ -116,13 +116,13 @@ That's pretty much all what you need to start the work!
     }
 
     @Override
-    public void secondPassResetConfirmed() {
+    public void passRestoreConfirmed() {
         //it will be called, if user gives correct answer on secret question
         //after this a new pattern creation view will be opened
     }
 
     @Override
-    public void secondPassResetFailed() {
+    public void passRestoreFailed() {
         //it will be called, if user gives incorrect answer on secret question
     }
 ```
