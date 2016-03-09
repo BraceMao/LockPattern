@@ -21,7 +21,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.pro100svitlo.lockpattern.interfaces.SecondPassDialogInterface;
+import com.pro100svitlo.lockpattern.interfaces.DialogLPVInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,31 +29,32 @@ import java.util.List;
 /**
  * Created by pro100svitlo on 1/29/16.
  */
-public class LPV_Dialog {
+public class DialogLPV {
 
     public static class Builder{
 
         private final Context mContext;
         private final LockPatternView mLPV;
-        private final SecondPassDialogInterface mInterfaceSPD;
+        private final DialogLPVInterface mInterfaceSPD;
         private int mMarginLeftRight = 24;
         private int mMarginTopBottom = 16;
         private int mMinAnswerLength;
         private int mMaxAnswerLength;
-        private int mTitleColor = R.color.colorPrimary;
-        private int mMessageColor = R.color.colorPrimary;
-        private int mTextColor = R.color.lpv_gray;
-        private int mButtonsColor = R.color.colorAccent;
-        private int mRadioBtnColor = R.color.colorAccent;
+        private int mTitleColor;
+        private int mMessageColor;
+        private int mTextColor;
+        private int mButtonsColor;
+        private int mRadioBtnColor;
         private final int mDialogType;
         private String[] mQuestionsArray;
         private String mTitleStr;
         private String mMessageStr;
         private String mPositiveStr;
         private String mNegativeStr;
+        private boolean mIsNeedToShowAnswer;
 
         public Builder(Context c, LockPatternView lp, float density, int dialogType,
-                       SecondPassDialogInterface interf){
+                       DialogLPVInterface interf){
             mContext = c;
             mLPV = lp;
             mDialogType = dialogType;
@@ -141,23 +142,28 @@ public class LPV_Dialog {
             return this;
         }
 
-        public LPV_Dialog build(){
-            return new LPV_Dialog(this);
+        public Builder setShowAnswerBoolean(boolean isNeedTOShow){
+            mIsNeedToShowAnswer = isNeedTOShow;
+            return this;
+        }
+
+        public DialogLPV build(){
+            return new DialogLPV(this);
         }
 
         private void getDialogItems(float screenDensity){
-            mTitleColor = ContextCompat.getColor(mContext, mTitleColor);
-            mMessageColor = ContextCompat.getColor(mContext, mMessageColor);
-            mTextColor = ContextCompat.getColor(mContext, mTextColor);
-            mButtonsColor = ContextCompat.getColor(mContext, mButtonsColor);
-            mRadioBtnColor = ContextCompat.getColor(mContext, mRadioBtnColor);
+            mTitleColor = ContextCompat.getColor(mContext, R.color.colorPrimary);
+            mMessageColor = ContextCompat.getColor(mContext, R.color.colorPrimary);
+            mTextColor = ContextCompat.getColor(mContext, R.color.lpv_gray);
+            mButtonsColor = ContextCompat.getColor(mContext, R.color.colorAccent);
+            mRadioBtnColor = ContextCompat.getColor(mContext, R.color.colorAccent);
 
-            if (mDialogType == LPV_Dialog.DIALOG_RESTORE_PATTERN){
+            if (mDialogType == DialogLPV.DIALOG_RESTORE_PATTERN){
                 mTitleStr = mContext.getString(R.string.lpv_ad_restorePass_title);
                 mMessageStr = mContext.getString(R.string.lpv_ad_restorePass_message);
                 mPositiveStr = mContext.getString(R.string.lpv_ad_restorePass_pos);
                 mNegativeStr = mContext.getString(R.string.lpv_ad_restorePass_neg);
-            } else if (mDialogType == LPV_Dialog.DIALOG_SET_SECOND_PASS){
+            } else if (mDialogType == DialogLPV.DIALOG_SET_SECOND_PASS){
                 mTitleStr = mContext.getString(R.string.lpv_ad_secondPass_title);
                 mMessageStr = mContext.getString(R.string.lpv_ad_secondPass_message);
                 mPositiveStr = mContext.getString(R.string.lpv_ad_secondPass_pos);
@@ -175,11 +181,11 @@ public class LPV_Dialog {
 
     private final Context mContext;
     private final LockPatternView mLPV;
-    private final SecondPassDialogInterface mInterfaceSPD;
+    private final DialogLPVInterface mInterfaceSPD;
     private RadioGroup mQuestionsGroup;
     private InputMethodManager mInputMethodManager;
     private AlertDialog mDialog;
-    private LPV_SharedPreferences mShp;
+    private SharedPreferencesLPV mShp;
     private LinearLayout mContainer;
     private TextView mQuestion;
     private EditText mAnswer;
@@ -206,8 +212,9 @@ public class LPV_Dialog {
 
     private final int mDialogType;
     private boolean mIsQuestionChosen;
+    private boolean mIsNeedToShowAnswer;
 
-    private LPV_Dialog(Builder b){
+    private DialogLPV(Builder b){
         mContext = b.mContext;
         mLPV = b.mLPV;
         mInterfaceSPD = b.mInterfaceSPD;
@@ -231,6 +238,7 @@ public class LPV_Dialog {
         mMessageStr = b.mMessageStr;
         mPositiveStr = b.mPositiveStr;
         mNegativeStr = b.mNegativeStr;
+        mIsNeedToShowAnswer = b.mIsNeedToShowAnswer;
 
         mIsQuestionChosen = false;
 
@@ -268,7 +276,7 @@ public class LPV_Dialog {
     }
 
     private void getCorrectAnswer(){
-        mShp = new LPV_SharedPreferences(mContext);
+        mShp = new SharedPreferencesLPV(mContext);
         mCorrectAnswerStr = mShp.getSecondSavedPass();
         String question = mShp.getSecondPassQuestion();
 
@@ -433,14 +441,20 @@ public class LPV_Dialog {
                 if (mCurrentAnswerStr.equals(mCorrectAnswerStr)) {
                     mShp.clearSharedPreferences();
                     mLPV.resetPatternSuccessful();
-                    mInterfaceSPD.secondPassResetConfirmed();
+                    mInterfaceSPD.passRestoreConfirmed();
                 } else {
                     mLPV.resetPatternFailed();
-                    mInterfaceSPD.secondPassResetFailed();
+                    mInterfaceSPD.passRestoreFailed();
                 }
             } else if (mDialogType == DIALOG_SET_SECOND_PASS){
                 mLPV.patternSetSuccessful(mCurrentAnswerStr, mQuestionsArray[mSelectedQuestionPosition]);
-                mInterfaceSPD.secondPassCreated(mCurrentAnswerStr);
+                String showedAnswer;
+                if (mIsNeedToShowAnswer){
+                    showedAnswer = mCurrentAnswerStr;
+                } else {
+                    showedAnswer = "";
+                }
+                mInterfaceSPD.secondPassCreated(showedAnswer);
             }
             mAnswer.getText().clear();
         }

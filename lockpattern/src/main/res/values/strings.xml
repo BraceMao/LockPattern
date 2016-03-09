@@ -4,7 +4,7 @@
     <string name="lpv_tv_statusTitle_setNewPattern">Set new pattern</string>
     <string name="lpv_tv_statusTitle_confirmPattern">Confirm pattern</string>
     <string name="lpv_tv_statusTitle_patternError">Wrong Pattern</string>
-    <string name="lpv_tv_forgotPass_title">Forgot password?</string>
+    <string name="lpv_tv_forgotPass_title">Forgot pattern?</string>
     <string name="lpv_snackbar_shortPattern">Pattern must contain at least <xliff:g id="count">%s</xliff:g> dots!</string>
 
     <string name="lpv_btn_actionCancel">Cancel</string>

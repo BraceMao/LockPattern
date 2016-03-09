@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="dotAnimScaleMax" format="float" type="dimen">4.0</item>
+    <item name="dotAnimScaleNormal" format="float" type="dimen">1.0</item>
+
+    <dimen name="margin_16">16dp</dimen>
+    <dimen name="margin_5">5dp</dimen>
+
+    <dimen name="dotRadius">5dp</dimen>
+    <dimen name="dotLineWidth">5dp</dimen>
+    <dimen name="mainBgRadius">10dp</dimen>
+    <dimen name="mainBgLineWidth">5dp</dimen>
+
+</resources>

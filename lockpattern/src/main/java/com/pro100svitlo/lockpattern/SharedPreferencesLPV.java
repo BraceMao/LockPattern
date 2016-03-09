@@ -7,7 +7,7 @@ import android.preference.PreferenceManager;
 /**
  * Created by pro100svitlo on 1/24/16.
  */
-public class LPV_SharedPreferences {
+public class SharedPreferencesLPV {
 
     private static final String LPV_MAIN_PASS_KEY = "LPV_MAIN_PASS_KEY";
     private static final String LPV_SECOND_PASS_ANSWER = "LPV_SECOND_PASS_ANSWER";
@@ -16,7 +16,7 @@ public class LPV_SharedPreferences {
     private final SharedPreferences mShp;
     private final SharedPreferences.Editor mShpEditor;
 
-    public LPV_SharedPreferences(Context c){
+    public SharedPreferencesLPV(Context c){
         mShp = PreferenceManager.getDefaultSharedPreferences(c);
         mShpEditor = mShp.edit();
     }

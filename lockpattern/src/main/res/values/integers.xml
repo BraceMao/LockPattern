@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="mButtonsViewId">-11111</integer>
+    <integer name="mForgetPassViewId">-22222</integer>
+    <integer name="mMainPatternViewId">-33333</integer>
+    <integer name="mStatusViewId">-44444</integer>
+    <integer name="mLogoViewId">-55555</integer>
+
+    <integer name="animTimeOut">150</integer>
+    <integer name="dialogMinAnswerLength">4</integer>
+    <integer name="dialogMaxAnswerLength">20</integer>
+    <integer name="dotAnimationDuration">100</integer>
+
+    <integer name="dotMinCount">4</integer>
+    <integer name="dotVibrateDur">10</integer>
+    <integer name="errorVibrateDur">200</integer>
+    <integer name="errorTimeOut">2000</integer>
+</resources>

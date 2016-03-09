@@ -4,7 +4,7 @@
         <attr name="errorTimeOutDur" format="integer"/>
         <attr name="secretModeEnable" format="boolean"/>
         <attr name="secondPassDialogEnable" format="boolean"/>
-        <attr name="showPatternPassStr" format="boolean"/>
+        <attr name="showPassStr" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="lpv_btn">
@@ -35,8 +35,6 @@
         <attr name="dotNormalColor" format="color" />
         <attr name="dotTouchedColor" format="color" />
         <attr name="dotErrorColor" format="color" />
-        <attr name="mainBgNormalColor" format="color" />
-        <attr name="mainBgErrorColor" format="color" />
 
         <attr name="mainIsBgEnable" format="boolean"/>
         <attr name="dotVibrateEnable" format="boolean"/>
@@ -67,7 +65,7 @@
         <attr name="dialogSecondPassNegativeStr" format="string"/>
         <attr name="dialogQuestionsArray" format="reference"/>
 
-        //dialog secondPass
+        //dialog passRestore
         <attr name="dialogPassRestoreTitleStr" format="string"/>
         <attr name="dialogPassRestoreMessageStr" format="string"/>
         <attr name="dialogPassRestorePositiveStr" format="string"/>

@@ -9,17 +9,19 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.pro100svitlo.lockpattern.LockPatternView;
-import com.pro100svitlo.lockpattern.interfaces.LPV_Interface;
-import com.pro100svitlo.lockpattern.interfaces.SecondPassDialogInterface;
+import com.pro100svitlo.lockpattern.interfaces.MainLPVInterface;
+import com.pro100svitlo.lockpattern.interfaces.DialogLPVInterface;
 
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment implements LPV_Interface, SecondPassDialogInterface {
+public class MainActivityFragment extends Fragment implements MainLPVInterface, DialogLPVInterface {
 
     public MainActivityFragment() {
     }
+
+    private String mMessage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,12 +43,17 @@ public class MainActivityFragment extends Fragment implements LPV_Interface, Sec
 
     @Override
     public void isPatternExist(boolean isExist) {
-        showToast(String.valueOf(isExist));
+        if (isExist){
+            mMessage = "pattern exist";
+        } else {
+            mMessage = "pattern doesn't exist";
+        }
+        showToast(mMessage);
     }
 
     @Override
     public void patternConfirmed(boolean isFirstEnter, String patternPass) {
-        showToast(String.valueOf(isFirstEnter) + ",\n" + patternPass);
+        showToast("pattern confirmed");
         Intent i = new Intent(getActivity(), ActivityNext.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -56,31 +63,31 @@ public class MainActivityFragment extends Fragment implements LPV_Interface, Sec
 
     @Override
     public void patternFailed() {
-        showToast("patternFailed");
+        showToast("pattern failed");
     }
 
     @Override
     public void setPatternCanceled() {
-        showToast("setPatternCanceled");
+        showToast("set pattern canceled");
     }
 
     @Override
     public void setSecondPassCanceled() {
-        showToast("setSecondPassCanceled");
+        showToast("set second pass canceled");
     }
 
     @Override
     public void secondPassCreated(String secondPass) {
-        showToast("secondPassCreated");
+        showToast("second pass created");
     }
 
     @Override
-    public void secondPassResetConfirmed() {
-        showToast("secondPassResetConfirmed");
+    public void passRestoreConfirmed() {
+        showToast("pass restore confirmed");
     }
 
     @Override
-    public void secondPassResetFailed() {
-        showToast("secondPassResetFailed");
+    public void passRestoreFailed() {
+        showToast("pass restore failed");
     }
 }

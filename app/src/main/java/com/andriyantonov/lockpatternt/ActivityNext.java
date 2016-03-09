@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.pro100svitlo.lockpattern.LPV_SharedPreferences;
+import com.pro100svitlo.lockpattern.SharedPreferencesLPV;
 
 public class ActivityNext extends AppCompatActivity {
 
@@ -27,7 +27,7 @@ public class ActivityNext extends AppCompatActivity {
                         .setAction("Clear", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                LPV_SharedPreferences shp = new LPV_SharedPreferences(ActivityNext.this);
+                                SharedPreferencesLPV shp = new SharedPreferencesLPV(ActivityNext.this);
                                 shp.clearSharedPreferences();
                                 Intent i = new Intent(ActivityNext.this, MainActivity.class);
                                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
