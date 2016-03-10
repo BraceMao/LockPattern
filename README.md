@@ -11,6 +11,7 @@ This library provides developer with possibility to easily integrate lock patter
     2. [Dialog Interface](#dialog-interface)
 3. [Customization](Customization.md)
 4. [Password Managing](#password-managing)
+5. [License](LICENSE.txt)
 
 # Usage
 ##### Add the dependencies to your gradle file:
